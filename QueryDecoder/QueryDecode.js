@@ -1,31 +1,34 @@
-var QueryDecode;
-
 /**
- * Декодирует url query строку в js-объект
- *
- * @param {String} queryString url query
- * @param {String} sep         разделитель параметров, по-умолчанию &
- * @param {String} eq          разделитель ключ-значение в параметре, по-умолчанию =
- *
- * @return {Object} объект query параметров
+ * Decode url query string to query object
  *
  * @example
  *
  * var query = QueryDecode('search=test&dir=desc&unk=&arr[]=1&arr[]=test&encoded%26=z%5D');
- * console.log(query);
  * // {search: 'test', dir: 'desc', unk: '', 'arr[]': ['1', 'test'], 'encoded&': 'z]'}
  */
-QueryDecode = function(queryString, sep, eq) {
+var QueryDecode;
+
+/**
+ * Decode url query string to query object
+ *
+ * @param {String} queryString url query
+ *
+ * @return {Object} query object
+ *
+ * @example
+ *
+ * var query = QueryDecode('search=test&dir=desc&unk=&arr[]=1&arr[]=test&encoded%26=z%5D');
+ * // {search: 'test', dir: 'desc', unk: '', 'arr[]': ['1', 'test'], 'encoded&': 'z]'}
+ */
+QueryDecode = function(queryString) {
   var result = {};
 
-  sep         = sep || '&';
-  eq          = eq  || '=';
   queryString = queryString || '';
 
-  queryString.split(sep).forEach(function (partString) {
+  queryString.split('&').forEach(function (partString) {
     var key,
         value,
-        parts = partString.split(eq);
+        parts = partString.split('=');
 
     if (parts.length > 1) {
       key   = decodeURIComponent(parts[0]);
