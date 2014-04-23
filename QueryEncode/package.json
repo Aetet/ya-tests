@@ -1,0 +1,15 @@
+{
+  "name": "QueryEncoder",
+  "version": "0.0.1",
+  "description": "make query string from hash object",
+  "main": "QueryEncode.js",
+  "scripts": {
+    "test": "mocha -R spec"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "mocha": "^1.18.2"
+  }
+}
