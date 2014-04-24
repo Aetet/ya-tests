@@ -4,7 +4,7 @@
   "description": "Simple presentation app",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -R spec"
+    "test": "node_modules/.bin/mocha -R spec"
   },
   "author": "",
   "license": "ISC",
