@@ -11,6 +11,7 @@
   "devDependencies": {
     "chai": "^1.9.1",
     "mocha": "^1.18.2",
-    "zombie": "^2.0.0-alpha31"
+    "component": "^1.0.0-rc5",
+    "component-test-builder": "0.0.4"
   }
 }
