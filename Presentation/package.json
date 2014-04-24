@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "chai": "^1.9.1",
     "mocha": "^1.18.2",
     "component": "^1.0.0-rc5",
     "component-test-builder": "0.0.4"

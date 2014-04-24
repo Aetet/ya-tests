@@ -43,7 +43,7 @@ var isNumber = function (value) {
  * @return bool
  */
 var isObject = function(obj) {
-  return obj === Object(obj);
+  return !!(obj && typeof obj === 'object');
 };
 
 /**

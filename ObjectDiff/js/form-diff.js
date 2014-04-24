@@ -7,6 +7,16 @@
  * В браузере через переменную window.
  */
 (function(module) {
+  /**
+   * Is value object
+   *
+   * @param value
+   * @return bool
+   */
+  var isObject = function(obj) {
+    return !!(obj && typeof obj === 'object');
+  };
+
   /** 
    * Сериализует форму в js-объект
    *
@@ -101,10 +111,67 @@
     return result;
   };
 
+  var createDiffRecord = function (name, from, to) {
+    var operation;
+    if (typeof to === 'undefined') {
+      operation = 'deleted';
+    } else if (typeof src === 'undefined') {
+      operation = 'added';
+    } else {
+      operation = 'changed';
+    }
+
+    if (Array.isArray(from) && Array.isArray(to)) {
+      var addedValues   = [],
+          removedValues = [];
+
+      if (from.length < to.length) {
+        removedValues = to.slice(from.length);
+      } else if (from.length > to.length) {
+        addedValues = from.slice(to.length);
+      }
+      operation = 'array changed';
+      
+    }
+
+    return {name: name, from: from, to: to, operation: operation};
+  };
+
+  /**
+   * Сравнение двух объектов без учета рекурсии.
+   *
+   * @param {Object} src
+   * @param {Object} dest
+   *
+   * @result {Array}
+   *
+   * @throw ErrorType Если src или dest не объекты.
+   *
+   * @example
+   *
+   *
+   *
+   *
+   *
+   *
+   */
   var diffObjects = function (src, dest) {
-    var prop,
-        result       = [],
-        filteredDest = Object.create(dest);
+    var filteredDest,
+        prop,
+        result = [];
+
+    src  = src  || {};
+    dest = dest || {};
+
+    if (!isObject(src)) {
+      throw new ErrorType('First argument is not an object');
+    }
+    if (!isObject(dest)) {
+      throw new ErrorType('Second argument is not an object');
+    }
+
+    // Клонируем dest, что бы потом удалить лишние свойства
+    filteredDest = Object.create(dest);
 
     // Надо проверять объединение свойств src и dest объектов, поэтому сначала итерируем свойства src, затем dest
     // undefined свойства тоже надо сравнивать, т.к. если мы снимаем галку, то это поле убирается из dom-объекта формы совсем.
@@ -116,21 +183,27 @@
         delete filteredDest[prop];
       }
       if (src[prop] !== dest[prop]) {
-        result.push({name: prop, from: src[prop], to: dest[prop]});
+        result.push(createDiffRecord(prop, src[prop], dest[prop]));
       }
     }
 
     for(prop in filteredDest) {
       if (src[prop] !== dest[prop]) {
-        result.push({name: prop, from: src[prop], to: dest[prop]});
+        result.push(createDiffRecord(prop, src[prop], dest[prop]));
       }
     }
 
     return result;
   };
 
-  var formDiff = function (form, log) {
-    // Хотя formDiff вызывается статически, но для каждой формы будет свой dataset в стеке, поэтому конфликтов не должно возникнуть.
+  /**
+   * Слушает событие submit у формы, получает ее состояние, сравнивает состояние с предыдущим и пишет разницу в элемент log
+   *
+   * @param {HTMLElement} form  form
+   * @param {HTMLElement} log   div с логом
+   */
+  var bind = function (form, log) {
+    // Хотя bind вызывается статически, но для каждой формы будет свой dataset в стеке, поэтому конфликтов не должно возникнуть.
     // В prevFormData хранится предыдущие состояние формы, для упрощения храним просто в памяти браузера.
     var dataset = {
       prevFormData: serializeForm(form)
@@ -149,14 +222,14 @@
       dataset.prevFormData = Object.create(currentFormData);
 
       diff.forEach(function (diffEl) {
-        console.log(diffEl.name + ' changed from ' + diffEl.from + ' to ' + diffEl.to);
+        console.log(diffEl.name + ' ' + diffEl.operation + ' from ' + diffEl.from + ' to ' + diffEl.to);
       });
     });
   };
 
   module.exports = {
-    formDiff: formDiff,
-    diffObjects: diffObjects,
+    bind:          bind,
+    diffObjects:   diffObjects,
     serializeForm: serializeForm
   };
 // В случае если require не найден - решаем, что мы в браузере и экспортируем функции в window, иначе - в module
