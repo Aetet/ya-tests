@@ -7,14 +7,89 @@
  * В браузере через переменную window.
  */
 (function(module) {
-  /**
-   * Is value object
-   *
-   * @param value
-   * @return bool
-   */
-  var isObject = function(obj) {
-    return !!(obj && typeof obj === 'object');
+
+  var util = {
+    /**
+     * Проверка на object (взято из lodash)
+     *
+     * @param obj
+     *
+     * @return {Bool}
+     */
+    isObject: function(obj) {
+      return !!(obj && typeof obj === 'object');
+    },
+
+    /**
+     * Форматирует строку подставляя значения из formatParameters вместо ключевых слов, начинающихся с :
+     *
+     * @param {String} text
+     * @param {Object} formatParameters
+     *
+     * @return {String}
+     *
+     * @example
+     *
+     * format('user email is :email', {email: 'test@ya.ru'});
+     * // user email is test.ya.ru
+     */
+    format: function(text, formatParameters) {
+      return text.replace(/:(\w+)/g, function(match, key) {
+        return formatParameters.hasOwnProperty(key) ? formatParameters[key] : '';
+      });
+    },
+
+    /**
+     * Находит элементы в src, не содержащиеся в dest
+     *
+     * Алгоритм не оптимален на больших объемах данных, но для разбора опций формы достаточно
+     *
+     * @param {Array} src
+     * @param {Array} dest
+     *
+     * @return {Array}
+     *
+     * @example
+     *
+     * src = [1, 2, 3, 4];
+     * dest = [3];
+     * arrayDiff(src, dest);
+     * // [1, 2, 4]
+     */
+    arrayDiff: function (src, dest) {
+      return src.filter(function (item) {
+        return dest.indexOf(item) === -1;
+      });
+    },
+
+    /**
+     * Сравнивает 2 массива по ключам, если хоть один отличается - возвращает false, инача - true
+     *
+     * @param {Array} src
+     * @param {Array} dest
+     *
+     * @return {Bool}
+     */
+    isArraysEqual: function (src, dest) {
+      if (src.length !== dest.length) {
+        return false;
+      }
+      for (var i = 0, length = src.length ; i < length; i++) {
+        if (src[i] !== dest[i]) {
+          return false;
+        }
+      }
+
+      return true;
+    },
+
+    isEqualValues: function (src, dest) {
+      if((Array.isArray(src) && Array.isArray(dest))) {
+        return util.isArraysEqual(src, dest);
+      } else {
+        return src === dest;
+      }
+    }
   };
 
   /**
@@ -33,38 +108,12 @@
    */
   var serializeForm = function (form) {
     if (!form || form.nodeName !== 'FORM') {
-      throw new ErrorType('argument form is not a HTMLFormElement');
+      throw new TypeError('argument form is not a HTMLFormElement');
     }
 
     var element, name, value,
         result = {};
 
-    /**
-     * Добавляет в объект свойство, если это свойство уже есть - превращает его в массив и добавляет значение в конец.
-     *
-     * @param {Object}             result это объект будет модифицироваться
-     * @param {String}             name   название свойства
-     * @param {String|Number|Bool} value  значение свойства
-     *
-     * @example
-     *
-     * var result = {};
-     * addToProperty(result, 'test', 'aa');
-     * // result: {test: 'aa'}
-     *
-     * addToProperty(result, 'test', 'bb');
-     * // result: {test: ['aa', 'bb']}
-     */
-    var addToProperty = function (result, name, value) {
-      if (result.hasOwnProperty(name)) {
-        if (!Array.isArray(result[name])) {
-          result[name] = [result[name]];
-        }
-        result[name].push(value);
-      } else {
-        result[name] = value;
-      }
-    };
     // Проходимся по всем элементам формы и в зависимости от типа, добавляем в результат свойство со значением
     for (var i = 0, length = form.elements.length; i < length ; i++) {
       element = form.elements[i];
@@ -86,10 +135,14 @@
           // Поэтому оборачиваем в функцию.
           (function () {
             var options = element.options;
+            if (!Array.isArray(result[name])) {
+              result[name] = [];
+            }
+
             for (var j = 0, optionsLength = options.length; j < optionsLength ; j++) {
               var option = options[j];
               if (option.selected) {
-                addToProperty(result, name, option.value);
+                result[name].push(option.value);
               }
             }
           })();
@@ -98,12 +151,20 @@
         case 'checkbox':
         case 'radio':
           if(element.checked) {
-            addToProperty(result, name, value);
+            if (element.dataset.multiple) {
+              if (!Array.isArray(result[name])) {
+                result[name] = [];
+              }
+
+              result[name].push(value);
+            } else {
+              result[name] = value;
+            }
           }
           break;
         // Правильнее перечислить здесь только валидные типы, а на остальные бросать исключение, для упрощения оставим default.
         default:
-          addToProperty(result, name, value);
+          result[name] = value;
           break;
       }
     }
@@ -133,18 +194,13 @@
       result.operation = 'change';
     }
 
-    if (isFromArray || isFromArray) {
-      fromNormalized = isFromArray ? from.slice(0) : (from ? [from] : []);
-      toNormalized   = isToArray ? to.slice(0) : (to ? [to] : []);
+    if (isFromArray || isToArray) {
+      fromNormalized      = isFromArray ? from.slice(0) : (from ? [from] : []);
+      toNormalized        = isToArray ? to.slice(0) : (to ? [to] : []);
 
-      if (fromNormalized.length < toNormalized.length) {
-        result.operation = 'add';
-        result.arrayDiff = toNormalized.slice(fromNormalized.length);
-      } else {
-        result.operation = 'delete';
-        result.arrayDiff = fromNormalized.slice(toNormalized.length);
-      }
-      result.type = 'array';
+      result.arrayAdded   = util.arrayDiff(toNormalized, fromNormalized);
+      result.arrayDeleted = util.arrayDiff(fromNormalized, toNormalized);
+      result.type         = 'array';
     } else {
       result.type = 'scalar';
     }
@@ -160,7 +216,7 @@
    *
    * @result {Array}
    *
-   * @throw ErrorType Если src или dest не объекты.
+   * @throw TypeError Если src или dest не объекты.
    *
    * @example
    *
@@ -178,33 +234,12 @@
     src  = src  || {};
     dest = dest || {};
 
-    if (!isObject(src)) {
-      throw new ErrorType('First argument is not an object');
+    if (!util.isObject(src)) {
+      throw new TypeError('First argument is not an object');
     }
-    if (!isObject(dest)) {
-      throw new ErrorType('Second argument is not an object');
+    if (!util.isObject(dest)) {
+      throw new TypeError('Second argument is not an object');
     }
-
-    var isArraysEqual = function (src, dest) {
-      if (src.length !== dest.length) {
-        return false;
-      }
-      for (var i = 0, length = src.length ; i < length; i++) {
-        if (src[i] !== dest[i]) {
-          return false;
-        }
-      }
-
-      return true;
-    };
-
-    var isEqualProperties = function (src, dest) {
-      if((Array.isArray(src) && Array.isArray(dest))) {
-        return isArraysEqual(src, dest);
-      } else {
-        return src === dest;
-      }
-    };
 
     // Клонируем dest, что бы потом удалить лишние свойства
     filteredDest = {};
@@ -219,13 +254,13 @@
     for(prop in src) {
       // из dest мы убираем те свойства, которые уже встретились в src и проверены, что бы не итерировать их в следующем for еще раз
       delete filteredDest[prop];
-      if (!isEqualProperties(src[prop], dest[prop])) {
+      if (!util.isEqualValues(src[prop], dest[prop])) {
         result.push(createDiffRecord(prop, src[prop], dest[prop]));
       }
     }
 
     for(prop in filteredDest) {
-      if (!isEqualProperties(src[prop], dest[prop])) {
+      if (!util.isEqualValues(src[prop], dest[prop])) {
         result.push(createDiffRecord(prop, src[prop], dest[prop]));
       }
     }
@@ -243,11 +278,12 @@
    * @param {String|Number|Array|undefined} item.to   Текущее значение.
    * @param {String}                        item.operation Тип операции: add, delete, change
    * @param {String}                        item.type тип значения: scalar, array
-   * @param {Array|undefined}               item.arrayDiff если item.type === array, содержит дельту изменения массивов
+   * @param {Array|undefined}               item.arrayAdded если item.type === array, содержит новые элементы в массиве
+   * @param {Array|undefined}               item.arrayDeleted если item.type === array, содержит удаленные из массива элементы
    * 
    * @return {String}
    *
-   * @throws ErrorType Если item не объект
+   * @throws TypeError Если item не объект
    *
    * @example
    * 
@@ -273,7 +309,7 @@
    * // из поля arr удалены элементы: b
    */
   var diffFormat = function (item) {
-    var formatParameters, messagesMap;
+    var formatParameters, messagesMap, messages, messageBlock;
 
     messagesMap = {
       scalar: {
@@ -282,36 +318,50 @@
         delete: 'Поле :name теперь пустое (было :from)'
       },
       array: {
-        chage:  'В поле :name добавлены элементы: :arrayDiff',
-        add:    'В поле :name добавлены элементы: :arrayDiff',
-        delete: 'Из поля :name удалены элементы: :arrayDiff'
+        change: 'В поле :name',
+        add: 'добавлены элементы: :arrayAdded',
+        delete: 'удалены элементы: :arrayDeleted'
       }
     };
 
-    if (!isObject(item)) {
-      throw new ErrorType('Item is not an object');
+    if (!util.isObject(item)) {
+      throw new TypeError('Item is not an object');
     }
     if (!messagesMap.hasOwnProperty(item.type)) {
-      throw new ErrorType('Unknown type ' + item.type + ' in item ' + item.name);
+      throw new TypeError('Unknown type ' + item.type + ' in item ' + item.name);
     }
     if (!messagesMap[item.type].hasOwnProperty(item.operation)) {
-      throw new ErrorType('Unknown operation ' + item.operation + ' in item ' + item.name);
+      throw new TypeError('Unknown operation ' + item.operation + ' for type ' + item.type + '  in item ' + item.name);
     }
 
-    formatParameters = {
-      name: item.name,
-      from: (Array.isArray(item.from) ? item.from.join(', ') : item.from) || 'пустого',
-      to:   (Array.isArray(item.to) ? item.to.join(', ') : item.to) || 'пустое',
-      arrayDiff: (item.arrayDiff || []).join(', ')
-    };
+    if (item.type === 'scalar') {
+      message = messagesMap[item.type][item.operation];
+      formatParameters = {
+        name: item.name,
+        from: item.from || 'пустого',
+        to:   item.to || 'пустое'
+      };
 
-    var format = function(text, formatParameters) {
-      return text.replace(/:(\w+)/g, function(match, key) {
-        return formatParameters.hasOwnProperty(key) ? formatParameters[key] : '';
-      });
-    };
+    } else {
+      messages = [];
+      messageBlock = messagesMap[item.type];
 
-    return format(messagesMap[item.type][item.operation], formatParameters);
+      if (item.arrayAdded.length) {
+        messages.push(messageBlock.add);
+      }
+      if (item.arrayDeleted.length) {
+        messages.push(messageBlock.delete);
+      }
+
+      message = messageBlock.change + ' ' + messages.join(', ');
+      formatParameters = {
+        name: item.name,
+        arrayAdded: item.arrayAdded.join(', '),
+        arrayDeleted: item.arrayDeleted.join(', ')
+      };
+    }
+
+    return util.format(message, formatParameters);
   };
 
   /**
@@ -329,22 +379,18 @@
 
     form.addEventListener('submit', function (e) {
       var currentFormData,
-          form    = e.target,
-          prevFormData = dataset.prevFormData;
+          diff,
+          form = e.target;
 
       e.preventDefault();
-      currentFormData = serializeForm(form);
 
-      var diff = diffObjects(prevFormData, currentFormData);
+      currentFormData      = serializeForm(form);
+      diff                 = diffObjects(dataset.prevFormData, currentFormData);
       dataset.prevFormData = Object.create(currentFormData);
 
-      var messages = diff.map(function (item) {
-        return diffFormat(item);
-      });
-
-      if (messages.length) {
+      if (diff.length) {
         console.log(diff);
-        log.innerHTML = '<ul><li>' + messages.join('</li><li>') + '</li></ul>' + log.innerHTML;
+        log.innerHTML = '<ul><li>' + diff.map(diffFormat).join('</li><li>') + '</li></ul>' + log.innerHTML;
       }
 
     });
