@@ -1,0 +1,79 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<!--[if lt IE 8]>
+  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<form id="user-register" method="POST">
+  <div>
+    <label for="name">Name:</label>
+    <input type="text" name="name" id="name" />
+  </div>
+
+  <div>
+    <label for="email">Email:</label>
+    <input type="text" name="email" id="email" />
+  </div>
+
+  <div>
+    <span>Gender:</span>
+    <span id="gender">
+      <label>
+         <input type="radio" name="gender" value="male" />
+         <span>Male</span>
+      </label>
+
+      <label>
+         <input type="radio" name="gender" value="female" />
+         <span>Female</span>
+      </label>
+    </span>
+  </div>
+
+  <div>
+    <label for="tickets">Tickets:</label>
+    <select name="tickets" id="tickets" multiple>
+      <option value="1">1 tickets</option>
+      <option value="2">2 tickets</option>
+      <option value="3">3 tickets</option>
+      <option value="4">4 tickets</option>
+    </select>
+  </div>
+
+  <div>
+    <div>Additional options: </div>
+    <label>
+      <input type="checkbox" name="options" checked="checked" value="insurance" />
+      <span>Insurance</span>
+    </label>
+
+    <label>
+      <input type="checkbox" name="options" value="tourism" />
+      <span>Tourism</span>
+    </label>
+
+    <label>
+      <input type="checkbox" name="options" value="sport" />
+      <span>Sport</span>
+    </label>
+
+  </div>
+
+  <button>Save</button>
+</form>
+
+<div id="log">
+</div>
+
+<script src="../js/formDiff.js" ></script>
+<script>
+  window.exports.bindTo(document.querySelector('#user-register'), document.querySelector('#log'));
+</script>
+</body>
