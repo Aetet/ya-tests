@@ -415,7 +415,7 @@
    * @param {HTMLElement} log   div Куда будет выводиться лог.
    */
   var bindTo = function (form, log) {
-    // В prevFormData хранится предыдущие состояние формы, для упрощения храним просто в памяти браузера.
+    // В prevFormData хранится предыдущее состояние формы, для упрощения храним просто в памяти браузера.
     var dataset = {
       prevFormData: serializeForm(form)
     };
