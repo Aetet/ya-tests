@@ -93,7 +93,7 @@
   };
 
   /**
-   * Сериализует форму в js-объект
+   * Преобразует html-объект формы в js-объект
    *
    * Можно было взять serializeArray из jquery, но на выходе эта функция дает массив объектов вида [{name: 'test', value: '1'}]
    * Для работы нашего diff удобнее работать с объектами вида: {name: 1, options: [1, 2, 3]}
@@ -173,11 +173,27 @@
   };
 
   /**
-   * Создает запись
+   * Создает запись об изменениях между измененными значениями from и to
    *
+   * @param {String} name
+   * @param {Object} from
+   * @param {Object} to
    *
+   * @return {String}                        result.name Имя свойства, которое было изменено.
+   * @return {String|Number|Array|undefined} result.from Предыдущее значение.
+   * @return {String|Number|Array|undefined} result.to   Текущее значение.
+   * @return {String}                        result.operation Тип операции: add, delete, change
+   * @return {String}                        result.type тип значения: scalar, array
+   * @return {Array|undefined}               result.arrayAdded если item.type === array, содержит новые элементы в массиве
+   * @return {Array|undefined}               result.arrayDeleted если item.type === array, содержит удаленные из массива элементы
    *
    * @example
+   *
+   * createDiffRecord('test', 'v1', 'v2');
+   * // {name: 'test', from: 'v1', to: 'v2', operation: 'change', type: 'scalar'}
+   *
+   * createDiffRecord('arr', ['a', 'b'],['b', 'c']);
+   * // {name: 'arr', from: ['a', 'b'], to: ['b', 'c'], arrayAdded: ['c'], arrayDeleted: ['a'], operation: 'change', type: 'array'}
    */
   var createDiffRecord = function (name, from, to) {
     var toNormalized,
@@ -220,11 +236,23 @@
    *
    * @example
    *
+   * diffObjects({test: 'v1'}, {test: 'v2'});
+   * // [{name: 'test', from: 'v1', to: 'v2', operation: 'change', type: 'scalar'}]
    *
+   * diffObjects({}, {test: 'v2'});
+   * // [{name: 'test', from: undefined, to: 'v2', operation: 'add', type: 'scalar'}]
    *
+   * diffObjects({test: 'v1'}, {});
+   * // [{name: 'test', from: 'v1', to: undefined, operation: 'delete', type: 'scalar'}]
    *
+   * diffObjects({}, {arr: ['a', 'b']});
+   * // [{name: 'arr', from: undefined, to: ['a', 'b'], arrayAdded: ['a', 'b'], arrayDeleted: [], operation: 'add', type: 'array'}]
    *
+   * diffObjects({arr: ['a', 'b']}, {});
+   * // [{name: 'arr', from: ['a', 'b'], to: undefined, arrayAdded: [], arrayDeleted: ['a', 'b'], operation: 'delete', type: 'array'}]
    *
+   * diffObjects({arr: ['a', 'b']}, {arr: ['b', 'c']});
+   * // [{name: 'arr', from: ['a', 'b'], to: ['b', 'c'], arrayAdded: ['c'], arrayDeleted: ['a'], operation: 'change', type: 'array'}]
    */
   var diffObjects = function (src, dest) {
     var filteredDest,
@@ -241,13 +269,13 @@
       throw new TypeError('Second argument is not an object');
     }
 
-    // Клонируем dest, что бы потом удалить лишние свойства
+    // Копируем свойства dest в новый объект, что бы потом определить какие свойства были уже проверены в первом цикле
     filteredDest = {};
     Object.keys(dest).forEach(function (key) {
       filteredDest[key] = true;
     });
 
-    // Надо проверять объединение свойств src и dest объектов, поэтому сначала итерируем свойства src, затем dest
+    // Надо проверять объединение свойств src и dest объектов, поэтому сначала итерируем свойства src, затем dest.
     // undefined свойства тоже надо сравнивать, т.к. если мы снимаем галку, то это поле убирается из dom-объекта формы совсем.
     // Поэтому не проверяем src и dest на hasOwnProperty, сюда должны попадать только raw-объекты, которые отдает serializeForm.
     // hasOwnProperty обычно используют, что бы удостовериться, что это свойства объекта, а не прототипа.
@@ -281,7 +309,7 @@
    * 
    * @return {String}
    *
-   * @throws TypeError Если item не объект
+   * @throws TypeError Если item не объект или его тип не scalar и не array
    *
    * @example
    * 
@@ -294,17 +322,14 @@
    * diffFormat({name: 'test', from: undefined, to: 'v3', operation: 'add', type: 'scalar'})
    * // поле test теперь не пустое (стало v3)
    *
-   * diffFormat({name: 'arr', from: undefined, to: ['a', 'b'], operation: 'add', type: 'array', arrayDiff: ['a', 'b']})
-   * // в поле arr добавлены элементы: a, b
+   * diffFormat({name: 'arr', operation: 'add', type: 'array', arrayAdded: ['a', 'b']})
+   * // Изменено поле arr, добавлены элементы: a, b
    *
-   * diffFormat({name: 'arr', from: 'a', to: ['a', 'b'], operation: 'add', type: 'array', arrayDiff: ['b']})
-   * // в поле arr добавлены элементы: b
+   * diffFormat({name: 'arr', operation: 'delete', type: 'array', arrayDeleted: ['a']})
+   * // Изменено поле arr, удалены элементы: a
    *
-   * diffFormat({name: 'arr', from: ['a', 'b'], to: ['b'], operation: 'delete', type: 'array', arrayDiff: ['a']})
-   * // из поля arr удалены элементы: a
-   *
-   * diffFormat({name: 'arr', from: ['b'], to: undefined, operation: 'delete', type: 'array', arrayDiff: ['b']})
-   * // из поля arr удалены элементы: b
+   * diffFormat({name: 'arr', operation: 'delete', type: 'array', arrayDeleted: ['a', 'b'], arrayAdded['c', 'd']})
+   * // Изменено поле arr, добавлены элементы: c, d, удалены элементы: a, b
    */
   var diffFormat = function (item) {
     var formatParameters, messagesMap, messages, messageBlock;
@@ -312,7 +337,7 @@
     messagesMap = {
       empty: {
         from: 'пустого',
-        to: 'пустое'
+        to:   'пустое'
       },
       scalar: {
         change: 'Поле :name изменено с :from на :to',
@@ -321,7 +346,7 @@
       },
       array: {
         change: 'Изменено поле :name',
-        add: 'добавлены элементы: :arrayAdded',
+        add:    'добавлены элементы: :arrayAdded',
         delete: 'удалены элементы: :arrayDeleted'
       }
     };
@@ -337,15 +362,16 @@
     }
 
     if (item.type === 'scalar') {
+      // Для простых типов формируем блок параметров name, from, to
       message = messagesMap[item.type][item.operation];
       formatParameters = {
         name: item.name,
         from: item.from || messagesMap.empty.from,
         to:   item.to || messagesMap.empty.to
       };
-
     } else {
-      messages = [];
+      //для массивов формируем блок на основе добавленных и удаленных элементов
+      messages     = [];
       messageBlock = messagesMap[item.type];
 
       if (item.arrayAdded.length) {
@@ -367,10 +393,10 @@
   };
 
   /**
-   * Слушает событие submit у формы, получает ее состояние, сравнивает состояние с предыдущим и пишет разницу в элемент log
+   * Слушает событие submit у формы, получает ее состояние, сравнивает состояние с предыдущим и пишет разницу в элемент log.
    *
-   * @param {HTMLElement} form  form
-   * @param {HTMLElement} log   div с логом
+   * @param {HTMLElement} form  Форма, изменения которой отслеживаем.
+   * @param {HTMLElement} log   div Куда будет выводиться лог.
    */
   var bindTo = function (form, log) {
     // Хотя bind вызывается статически, но для каждой формы будет свой dataset в стеке, поэтому конфликтов не должно возникнуть.
