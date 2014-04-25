@@ -312,6 +312,10 @@
     var formatParameters, messagesMap, messages, messageBlock;
 
     messagesMap = {
+      empty: {
+        from: 'пустого',
+        to: 'пустое'
+      },
       scalar: {
         change: 'Поле :name изменено с :from на :to',
         add:    'Поле :name теперь не пустое (стало :to)',
@@ -338,8 +342,8 @@
       message = messagesMap[item.type][item.operation];
       formatParameters = {
         name: item.name,
-        from: item.from || 'пустого',
-        to:   item.to || 'пустое'
+        from: item.from || messagesMap.empty.from,
+        to:   item.to || messagesMap.empty.to
       };
 
     } else {
