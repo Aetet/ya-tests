@@ -2,7 +2,6 @@
  * formDiff Выводит различия в данных формы, по сравнению с предыдущими данными.
  *
  * Для экономии времени я не стал использовать сборщики модулей, поэтому все функции перечислил в одном файле.
- * Тем более, что текущей задачи это вполне оправдано.
  * В среде node.js все функции доступны через require, что бы облегчить тестирование.
  * В браузере через переменную window.
  */
@@ -189,7 +188,7 @@
   };
 
   /**
-   * Создает запись об изменениях между измененными значениями from и to
+   * Создает запись об изменениях между значениями from и to
    *
    * @param {String} name
    * @param {String|Number|Array|undefined} from
@@ -398,9 +397,10 @@
       }
 
       message = messageBlock.change + ', ' + messages.join(', ');
+
       formatParameters = {
-        name: item.name,
-        arrayAdded: item.arrayAdded.join(', '),
+        name:         item.name,
+        arrayAdded:   item.arrayAdded.join(', '),
         arrayDeleted: item.arrayDeleted.join(', ')
       };
     }
@@ -415,7 +415,6 @@
    * @param {HTMLElement} log   div Куда будет выводиться лог.
    */
   var bindTo = function (form, log) {
-    // Хотя bind вызывается статически, но для каждой формы будет свой dataset в стеке, поэтому конфликтов не должно возникнуть.
     // В prevFormData хранится предыдущие состояние формы, для упрощения храним просто в памяти браузера.
     var dataset = {
       prevFormData: serializeForm(form)
