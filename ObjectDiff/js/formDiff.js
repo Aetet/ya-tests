@@ -40,9 +40,9 @@
     },
 
     /**
-     * Находит элементы в src, не содержащиеся в dest
+     * Находит элементы в src, не содержащиеся в dest.
      *
-     * Алгоритм не оптимален на больших объемах данных, но для разбора опций формы достаточно
+     * Алгоритм не оптимален на больших объемах данных, но для разбора опций формы достаточно.
      *
      * @param {Array} src
      * @param {Array} dest
@@ -63,12 +63,20 @@
     },
 
     /**
-     * Сравнивает 2 массива по ключам, если хоть один отличается - возвращает false, инача - true
+     * Сравнивает 2 массива по ключам, если хоть один отличается - возвращает false, инача - true.
      *
      * @param {Array} src
      * @param {Array} dest
      *
      * @return {Bool}
+     *
+     * @example
+     *
+     * isArrayEqual([1, 2, 3], [1, 2, 5]);
+     * // false
+     *
+     * isArrayEqual([1, 2, 3], [1, 2, 3]);
+     * // true
      */
     isArraysEqual: function (src, dest) {
       if (src.length !== dest.length) {
@@ -83,6 +91,14 @@
       return true;
     },
 
+    /**
+     * Проверяет равны ли 2 значения, в случае массива проверяет каждый елемент.
+     *
+     * @param {Array} src
+     * @param {Array} dest
+     *
+     * @return {Bool}
+     */
     isEqualValues: function (src, dest) {
       if((Array.isArray(src) && Array.isArray(dest))) {
         return util.isArraysEqual(src, dest);
@@ -176,16 +192,16 @@
    * Создает запись об изменениях между измененными значениями from и to
    *
    * @param {String} name
-   * @param {Object} from
-   * @param {Object} to
+   * @param {String|Number|Array|undefined} from
+   * @param {String|Number|Array|undefined} to
    *
    * @return {String}                        result.name Имя свойства, которое было изменено.
    * @return {String|Number|Array|undefined} result.from Предыдущее значение.
    * @return {String|Number|Array|undefined} result.to   Текущее значение.
-   * @return {String}                        result.operation Тип операции: add, delete, change
-   * @return {String}                        result.type тип значения: scalar, array
-   * @return {Array|undefined}               result.arrayAdded если item.type === array, содержит новые элементы в массиве
-   * @return {Array|undefined}               result.arrayDeleted если item.type === array, содержит удаленные из массива элементы
+   * @return {String}                        result.operation Тип операции: add, delete, change.
+   * @return {String}                        result.type тип значения: scalar, array.
+   * @return {Array|undefined}               result.arrayAdded Для массивов, содержит новые элементы в массиве.
+   * @return {Array|undefined}               result.arrayDeleted Для массивов, содержит удаленные из массива элементы.
    *
    * @example
    *
@@ -297,19 +313,19 @@
   };
 
   /**
-   * Форматирует результат сравнения 2х объектов в строку для последующего вывода в консоль
+   * Форматирует результат сравнения 2х объектов в строку для последующего вывода в консоль.
    *
    * @param {String}                        item.name Имя свойства, которое было изменено.
    * @param {String|Number|Array|undefined} item.from Предыдущее значение.
    * @param {String|Number|Array|undefined} item.to   Текущее значение.
-   * @param {String}                        item.operation Тип операции: add, delete, change
-   * @param {String}                        item.type тип значения: scalar, array
-   * @param {Array|undefined}               item.arrayAdded если item.type === array, содержит новые элементы в массиве
-   * @param {Array|undefined}               item.arrayDeleted если item.type === array, содержит удаленные из массива элементы
+   * @param {String}                        item.operation Тип операции: add, delete, change.
+   * @param {String}                        item.type тип значения: scalar, array.
+   * @param {Array|undefined}               item.arrayAdded Для массивов, содержит новые элементы в массиве.
+   * @param {Array|undefined}               item.arrayDeleted Для массивов, содержит удаленные из массива элементы.
    * 
    * @return {String}
    *
-   * @throws TypeError Если item не объект или его тип не scalar и не array
+   * @throws TypeError Если item не объект или его тип не scalar и не array.
    *
    * @example
    * 
