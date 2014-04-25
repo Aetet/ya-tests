@@ -268,8 +268,6 @@
     return result;
   };
 
-
-
   /**
    * Форматирует результат сравнения 2х объектов в строку для последующего вывода в консоль
    *
@@ -322,7 +320,7 @@
         delete: 'Поле :name теперь пустое (было :from)'
       },
       array: {
-        change: 'В поле :name',
+        change: 'Изменено поле :name',
         add: 'добавлены элементы: :arrayAdded',
         delete: 'удалены элементы: :arrayDeleted'
       }
@@ -357,7 +355,7 @@
         messages.push(messageBlock.delete);
       }
 
-      message = messageBlock.change + ' ' + messages.join(', ');
+      message = messageBlock.change + ', ' + messages.join(', ');
       formatParameters = {
         name: item.name,
         arrayAdded: item.arrayAdded.join(', '),
