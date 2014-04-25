@@ -20,7 +20,15 @@ var testUrlWithQuery = 'http://ya.ru?param1=test&param2=test';
 describe('QueryEncode', function () {
   it('empty input argument should return a empty string', function () {
     expect(QueryEncode(null)).to.be.a('string');
+    expect(QueryEncode('')).to.be.a('string');
+    expect(QueryEncode(0)).to.be.a('string');
+    expect(QueryEncode(false)).to.be.a('string');
+
     expect(QueryEncode(null)).to.be.empty;
+    expect(QueryEncode('')).to.be.empty;
+    expect(QueryEncode(false)).to.be.empty;
+    expect(QueryEncode(0)).to.be.empty;
+
   });
 
   it('should throw exception if query property is not a string or number or array', function () {

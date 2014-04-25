@@ -17,7 +17,7 @@
     return !!(obj && typeof obj === 'object');
   };
 
-  /** 
+  /**
    * Сериализует форму в js-объект
    *
    * Можно было взять serializeArray из jquery, но на выходе эта функция дает массив объектов вида [{name: 'test', value: '1'}]
@@ -38,7 +38,7 @@
 
     var element, name, value,
         result = {};
- 
+
     /**
      * Добавляет в объект свойство, если это свойство уже есть - превращает его в массив и добавляет значение в конец.
      *
@@ -62,7 +62,7 @@
         }
         result[name].push(value);
       } else {
-        result[name] = value;  
+        result[name] = value;
       }
     };
     // Проходимся по всем элементам формы и в зависимости от типа, добавляем в результат свойство со значением
@@ -112,29 +112,35 @@
   };
 
   var createDiffRecord = function (name, from, to) {
-    var operation;
+    var toNormalized,
+        fromNormalized,
+        result      = {name: name, from: from, to: to},
+        isFromArray = Array.isArray(from),
+        isToArray   = Array.isArray(to);
+
     if (typeof to === 'undefined') {
-      operation = 'deleted';
-    } else if (typeof src === 'undefined') {
-      operation = 'added';
+      result.operation = 'deleted';
+    } else if (typeof from === 'undefined') {
+      result.operation = 'added';
     } else {
-      operation = 'changed';
+      result.operation = 'changed';
     }
 
-    if (Array.isArray(from) && Array.isArray(to)) {
-      var addedValues   = [],
-          removedValues = [];
+    if (isFromArray || isFromArray) {
+      fromNormalized = isFromArray ? from.slice(0) : (from ? [from] : []);
+      toNormalized   = isToArray ? to.slice(0) : (to ? [to] : []);
 
-      if (from.length < to.length) {
-        removedValues = to.slice(from.length);
-      } else if (from.length > to.length) {
-        addedValues = from.slice(to.length);
+      if (fromNormalized.length < toNormalized.length) {
+        result.addedValues = toNormalized.slice(fromNormalized.length);
+      } else {
+        result.removedValues = fromNormalized.slice(toNormalized.length);
       }
-      operation = 'array changed';
-      
+      result.type = 'array';
+    } else {
+      result.type = 'scalar';
     }
 
-    return {name: name, from: from, to: to, operation: operation};
+    return result;
   };
 
   /**
@@ -218,11 +224,13 @@
       currentFormData = serializeForm(form);
 
       var diff = diffObjects(prevFormData, currentFormData);
-      console.log(prevFormData, currentFormData);
       dataset.prevFormData = Object.create(currentFormData);
 
       diff.forEach(function (diffEl) {
-        console.log(diffEl.name + ' ' + diffEl.operation + ' from ' + diffEl.from + ' to ' + diffEl.to);
+        console.log(diffEl.name + ' ' + diffEl.operation
+         + ' from ' + diffEl.from + ' to ' + diffEl.to
+         + ', added array values ' + diffEl.addedValues + ' removed array values ' + diffEl.removedValues,
+          ', type=' + diffEl.type);
       });
     });
   };
