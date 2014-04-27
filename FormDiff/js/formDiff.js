@@ -274,15 +274,15 @@
         prop,
         result = [];
 
-    src  = src  || {};
-    dest = dest || {};
-
     if (!util.isObject(src)) {
       throw new TypeError('First argument is not an object');
     }
     if (!util.isObject(dest)) {
       throw new TypeError('Second argument is not an object');
     }
+
+    src  = src  || {};
+    dest = dest || {};
 
     // Копируем свойства dest в новый объект, что бы потом определить какие свойства были уже проверены в первом цикле
     filteredDest = {};
@@ -321,13 +321,13 @@
    * @param {String}                        item.type тип значения: scalar, array.
    * @param {Array|undefined}               item.arrayAdded Для массивов, содержит новые элементы в массиве.
    * @param {Array|undefined}               item.arrayDeleted Для массивов, содержит удаленные из массива элементы.
-   * 
+   *
    * @return {String}
    *
    * @throws TypeError Если item не объект или его тип не scalar и не array.
    *
    * @example
-   * 
+   *
    * diffFormat({name: 'test', from: 'v1', to: 'v2', operation: 'change', type: 'scalar'})
    * // поле test изменено с v1 на v2
    *
