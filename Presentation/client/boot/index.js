@@ -6,5 +6,4 @@ var Presenter = {
   }
 };
 
-
 module.exports = Presenter;
