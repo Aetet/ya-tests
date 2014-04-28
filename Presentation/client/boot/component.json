@@ -1,11 +1,13 @@
 {
   "paths": [
-    "../widgets"
+    "../widgets",
+    "../lib"
   ],
   "locals": [
-    "presentation"
+    "presenter",
+    "renderer"
   ],
   "scripts": [
-    "index.js"
+    "boot.js"
   ]
 }

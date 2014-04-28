@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "node_modules/.bin/component install"
   },
-  "build": "node builder.js",
+  "build": "node_modules/.bin/component build -d -o web/build",
   "author": "",
   "license": "ISC",
   "devDependencies": {

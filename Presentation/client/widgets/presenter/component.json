@@ -1,12 +1,13 @@
 {
-  "name": "presentation",
+  "name": "presenter",
   "locals": [
+    "presentation",
     "format"
   ],
   "paths": [
     "../../lib"
   ],
   "scripts": [
-    "index.js"
+    "presenter.js"
   ]
 }
