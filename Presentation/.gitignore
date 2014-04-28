@@ -31,6 +31,7 @@ node_modules/
 bower_components/
 components/
 build/
+web/build/
 dist/
 .idea/
 .tmp

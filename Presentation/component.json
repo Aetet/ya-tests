@@ -1,23 +1,20 @@
 {
-  "name": "example-test-build",
-  "repo": "virtru/example-test-build",
-  "description": "An example to be test built",
+  "name": "presenter",
+  "description": "An presenter app",
   "version": "0.0.1",
-  "keywords": [],
-  "dependencies": {
-  },
   "development": {
-    "virtru/chai": "*"
+    "chaijs/chai": "^1.9.1",
+    "visionmedia/mocha": "^1.18.2"
   },
   "license": "MIT",
-  "scripts": [
-    "index.js"
+  "private": true,
+  "paths": [
+    "client"
   ],
-  "devScripts": [
-    "dev.js"
+  "locals": [
+    "boot"
   ],
-  "testScripts": [
-    "test/*.js"
-  ]
+  "dependencies": {
+    "necolas/normalize.css": "^3.0.1"
+  }
 }
-

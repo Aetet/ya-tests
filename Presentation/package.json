@@ -4,13 +4,15 @@
   "description": "Simple presentation app",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha -R spec"
+    "postinstall": "node_modules/.bin/component install"
   },
+  "build": "node builder.js",
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "mocha": "^1.18.2",
     "component": "^1.0.0-rc5",
-    "component-test-builder": "0.0.4"
+    "component-resolver": "^1.1.1",
+    "component-builder": "^1.1.5",
+    "component-build": "^1.2.0"
   }
 }
