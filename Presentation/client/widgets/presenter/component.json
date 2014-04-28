@@ -1,8 +1,7 @@
 {
   "name": "presenter",
   "locals": [
-    "presentation",
-    "format"
+    "presentation"
   ],
   "paths": [
     "../../lib"

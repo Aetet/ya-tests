@@ -3,9 +3,7 @@ var Presenter    = require('presenter'),
 
 module.exports = {
   render: function (parentEl) {
-    var el = Renderer(Presenter, {
-      storageKey: 'presentation'
-    });
+    var el = Renderer(Presenter);
 
     parentEl.appendChild(el);
   }

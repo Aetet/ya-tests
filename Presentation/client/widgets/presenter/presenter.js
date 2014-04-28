@@ -1,13 +1,13 @@
 var Presenter,
     Presentation = require('presentation'),
-    R            = require('renderer'),
-    format       = require('format');
+    R            = require('renderer');
 
 Presenter = function (props) {
   this.props = props;
+  this.state = {
+    number: 1,
+  };
 };
-
-
 
 Presenter.prototype.getDefaultProps = function () {
   return {
@@ -16,14 +16,14 @@ Presenter.prototype.getDefaultProps = function () {
 };
 
 Presenter.prototype.onAddPresentation = function (e) {
-
+  R.setState(this, {number: this.state.number + 1});
 };
 
-Presenter.prototype.render = function (el) {
+Presenter.prototype.render = function () {
   return [
-    R('h1', 'Презентации'),
-    R(Presentation, {storageKey: this.props.storageKey}),
-    R('button', '+').addEventListener('click', this.onAddPresentation.bind(this))
+    R('h1', {innerHTML: 'Презентации'}),
+    R(Presentation, {number: this.state.number, storageKey: this.props.storageKey}),
+    R('button', {innerHTML: '+', onClick: this.onAddPresentation.bind(this)})
   ];
 };
 
