@@ -83,7 +83,22 @@ PresentationDashboard.prototype.onAddSlideTextItem = function (presentationKey, 
   console.log('add slide text item');
 
   slide.items.push({
+    type: 'text',
     text: text
+  });
+
+  R.refresh(this);
+};
+
+PresentationDashboard.prototype.onAddSlideImageItem = function (presentationKey, slideKey, imageData) {
+  var presentation = this.state.presentations[presentationKey],
+      slide        = presentation.slides[slideKey];
+
+  console.log('add slide image item');
+
+  slide.items.push({
+    type:      'image',
+    imageData: imageData
   });
 
   R.refresh(this);
@@ -97,13 +112,14 @@ PresentationDashboard.prototype.render = function () {
     R('h1', {innerHTML: 'Презентации', className: 'presentation_dashboard-header'})
   ].concat(state.presentations.map(function(presentation, index) {
     return R(Presentation, {
-      key:                index,
-      slides:             presentation.slides,
-      currentSlide:       presentation.currentSlide,
-      onAddSlide:         this.onAddSlide.bind(this),
-      onAddSlideTextItem: this.onAddSlideTextItem.bind(this),
-      onNavigationPrev:   this.onNavigationPrev.bind(this),
-      onNavigationNext:   this.onNavigationNext.bind(this)
+      key:                 index,
+      slides:              presentation.slides,
+      currentSlide:        presentation.currentSlide,
+      onAddSlide:          this.onAddSlide.bind(this),
+      onAddSlideTextItem:  this.onAddSlideTextItem.bind(this),
+      onAddSlideImageItem: this.onAddSlideImageItem.bind(this),
+      onNavigationPrev:    this.onNavigationPrev.bind(this),
+      onNavigationNext:    this.onNavigationNext.bind(this)
     });
   }.bind(this))).concat([
     R('button', {

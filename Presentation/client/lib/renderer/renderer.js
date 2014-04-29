@@ -8,7 +8,7 @@ var Renderer = function (Prototype, options) {
   if (isString(Prototype)) {
     el = document.createElement(Prototype);
 
-    ['innerHTML', 'type', 'name', 'value', 'className'].forEach(function (property) {
+    ['innerHTML', 'type', 'name', 'value', 'className', 'src'].forEach(function (property) {
       if (typeof options[property] !== 'undefined') {
         el[property] = options[property];
       }

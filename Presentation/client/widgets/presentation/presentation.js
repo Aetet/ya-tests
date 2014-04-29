@@ -16,8 +16,11 @@ Presentation.prototype.getDefaultProps = function () {
     onAddSlide: function (presentationKey) {
       console.log('add slide ' + presentationKey);
     },
-    onAddSlideTextItem: function (presentationKey, slideKey) {
+    onAddSlideTextItem: function (presentationKey, slideKey, text) {
       console.log('add slide text item for presentation ' + presentationKey, ' and slide ' + slideKey);
+    },
+    onAddSlideImageItem: function (presentationKey, slideKey, imageData) {
+      console.log('add slide image item for presentation ' + presentationKey, ' and slide ' + slideKey);
     },
     onNavigationPrev: function (presentationKey) {
       console.log('prev slide ' + presentationKey);
@@ -44,6 +47,10 @@ Presentation.prototype.onAddSlideTextItem = function (slideKey, text) {
   this.props.onAddSlideTextItem(this.props.key, slideKey, text);
 };
 
+Presentation.prototype.onAddSlideImageItem = function (slideKey, imageData) {
+  this.props.onAddSlideImageItem(this.props.key, slideKey, imageData);
+};
+
 Presentation.prototype.render = function() {
   var slides            = this.props.slides,
       currentSlideIndex = this.props.currentSlide,
@@ -56,9 +63,10 @@ Presentation.prototype.render = function() {
   .concat(
     currentSlideIndex
       ? [R(Slide, {
-          items:         currentSlide.items,
-          key:           currentSlideIndex - 1,
-          onAddTextItem: this.onAddSlideTextItem.bind(this)
+          items:          currentSlide.items,
+          key:            currentSlideIndex - 1,
+          onAddTextItem:  this.onAddSlideTextItem.bind(this),
+          onAddImageItem: this.onAddSlideImageItem.bind(this),
         })]
       : []
   )

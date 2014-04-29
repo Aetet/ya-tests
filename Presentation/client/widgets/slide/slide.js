@@ -18,7 +18,10 @@ Slide.prototype.getDefaultProps = function () {
     items: [],
     key: 0,
     onAddTextItem: function (key) {
-      console.log('add slide item ' + key);
+      console.log('add slide text item ' + key);
+    },
+    onAddImageItem: function (key) {
+      console.log('add slide image item ' + key);
     }
   };
 };
@@ -32,6 +35,23 @@ Slide.prototype.onAddTextItem = function () {
   if (text) {
     this.props.onAddTextItem(this.props.key, text);
   }
+};
+
+Slide.prototype.onSlideItemImageEnter = function (e) {
+  var file, reader;
+
+  file   = e.target.files[0];
+  reader = new FileReader();
+
+  reader.onload = function (e) {
+    this.onAddImageItem(e.target.result);
+  }.bind(this);
+
+  reader.readAsDataURL(file);
+};
+
+Slide.prototype.onAddImageItem = function (imageData) {
+  this.props.onAddImageItem(this.props.key, imageData);
 };
 
 Slide.prototype.render = function () {
@@ -49,6 +69,12 @@ Slide.prototype.render = function () {
       value:    this.state.textInputValue,
       onChange: this.onSlideItemTextEnter.bind(this),
       className: 'slide-input_text'
+    }),
+    R('input', {
+      type:     'file',
+      name:     'image-input',
+      onChange: this.onSlideItemImageEnter.bind(this),
+      className: 'slide-input_image'
     })
   ]);
 };

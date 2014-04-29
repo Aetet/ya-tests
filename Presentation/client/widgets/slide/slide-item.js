@@ -9,7 +9,7 @@ SlideItem = function (props) {
 SlideItem.prototype.getDefaultProps = function () {
   return {
     key: 0,
-    item: {text: 'example text'}
+    item: {text: 'example text', type: 'text'}
   };
 };
 
@@ -17,7 +17,9 @@ SlideItem.prototype.render = function () {
   var item = this.props.item;
 
   return [
-    R('p', {innerHTML: item.text, className: 'slide_item-text'})
+    item.type === 'text'
+      ? R('p', {innerHTML: item.text, className: 'slide_item-text'})
+      : R('img', {src: item.imageData, className: 'slide_item-image'})
   ];
 };
 
