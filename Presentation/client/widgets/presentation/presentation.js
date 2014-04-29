@@ -4,76 +4,80 @@ var Presenteration,
     Navigation = require('navigation');
 
 Presentation = function (props) {
-  this.props = props;
+  this.props     = props;
   this.className = 'presentation';
 };
 
 Presentation.prototype.getDefaultProps = function () {
   return {
-    number: 1
-  };
-};
-
-Presentation.prototype.getInitialState = function () {
-  return {
+    key: 0,
     slides: [],
-    currentSlide: 0
+    currentSlide: 0,
+    onAddSlide: function (presentationKey) {
+      console.log('add slide ' + presentationKey);
+    },
+    onAddSlideTextItem: function (presentationKey, slideKey) {
+      console.log('add slide text item for presentation ' + presentationKey, ' and slide ' + slideKey);
+    },
+    onNavigationPrev: function (presentationKey) {
+      console.log('prev slide ' + presentationKey);
+    },
+    onNavigationNext: function (presentationKey) {
+      console.log('next slide ' + presentationKey);
+    }
   };
 };
 
 Presentation.prototype.onNavigationPrev = function () {
-  console.log('prev slide');
-  var prevSlideIndex = this.state.currentSlide - 1;
-  if (prevSlideIndex > 0) {
-    R.setState(this, {currentSlide: prevSlideIndex});
-  }
+  this.props.onNavigationPrev(this.props.key);
 };
 
 Presentation.prototype.onNavigationNext = function () {
-  console.log('next slide');
-  var nextSlideIndex = this.state.currentSlide + 1;
-  if (nextSlideIndex <= this.state.slides.length) {
-    R.setState(this, {currentSlide: nextSlideIndex});
-  }
+  this.props.onNavigationNext(this.props.key);
 };
 
 Presentation.prototype.onAddSlide = function () {
-  var slides = this.state.slides.slice(0);
-
-  console.log('add slide');
-
-  slides.push({});
-
-  R.setState(this, {slides: slides, currentSlide: slides.length});
+  this.props.onAddSlide(this.props.key);
 };
 
-Presentation.prototype.onAddSlideTextItem = function () {
-  console.log('onAddSlideTextItem');
+Presentation.prototype.onAddSlideTextItem = function (slideKey, text) {
+  this.props.onAddSlideTextItem(this.props.key, slideKey, text);
 };
 
 Presentation.prototype.render = function() {
-  var navigation,
-      slides       = this.state.slides,
-      currentSlide = this.state.currentSlide;
-
-  navigation = R(Navigation, {
-    onPrev: this.onNavigationPrev.bind(this),
-    onNext: this.onNavigationNext.bind(this),
-    currentSlide: currentSlide,
-    totalSlides:  slides.length
-  });
+  var slides            = this.props.slides,
+      currentSlideIndex = this.props.currentSlide,
+      currentSlide      = slides[this.props.currentSlide - 1],
+      number            = this.props.key + 1;
 
   return [
-    R('h2', {innerHTML: 'Презентация № ' + this.props.number,  className: 'presentation-header'}),
-  ].concat(
-    currentSlide
-      ? [R(Slide, {slide: slides[currentSlide - 1], key: currentSlide, onAddTextItem: this.onAddSlideTextItem.bind(this)})]
+    R('h2', {innerHTML: 'Презентация № ' + number,  className: 'presentation-header'})
+  ]
+  .concat(
+    currentSlideIndex
+      ? [R(Slide, {
+          items:         currentSlide.items,
+          key:           currentSlideIndex - 1,
+          onAddTextItem: this.onAddSlideTextItem.bind(this)
+        })]
       : []
   )
   .concat(
-    slides.length > 1 ? [navigation] : []
-  ).concat([
-    R('button', {innerHTML: '+ слайд', onClick: this.onAddSlide.bind(this), className: 'presentation-button-add'})
+    slides.length > 1
+      ? [R(Navigation, {
+          onPrev:       this.onNavigationPrev.bind(this),
+          onNext:       this.onNavigationNext.bind(this),
+          currentSlide: currentSlideIndex,
+          totalSlides:  slides.length
+        })]
+      : []
+  )
+  .concat([
+    R('button', {
+      innerHTML:  '+ слайд',
+      onClick:    this.onAddSlide.bind(this),
+      className: 'presentation-button-add'
+    })
   ]);
 };
 
