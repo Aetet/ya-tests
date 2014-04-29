@@ -3,6 +3,11 @@
     "renderer"
   ],
   "scripts": [
-    "slide.js"
+    "slide.js",
+    "slide-item.js"
+  ],
+
+  "styles": [
+    "slide.css"
   ]
 }

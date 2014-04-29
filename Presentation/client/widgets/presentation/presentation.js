@@ -47,6 +47,10 @@ Presentation.prototype.onAddSlide = function () {
   R.setState(this, {slides: slides, currentSlide: slides.length});
 };
 
+Presentation.prototype.onAddSlideTextItem = function () {
+  console.log('onAddSlideTextItem');
+};
+
 Presentation.prototype.render = function() {
   var navigation,
       slides       = this.state.slides,
@@ -63,7 +67,7 @@ Presentation.prototype.render = function() {
     R('h2', {innerHTML: 'Презентация № ' + this.props.number,  className: 'presentation-header'}),
   ].concat(
     currentSlide
-      ? [R(Slide, {slide: slides[currentSlide - 1], key: currentSlide})]
+      ? [R(Slide, {slide: slides[currentSlide - 1], key: currentSlide, onAddTextItem: this.onAddSlideTextItem.bind(this)})]
       : []
   )
   .concat(
