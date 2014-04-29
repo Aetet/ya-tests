@@ -1,15 +1,24 @@
+/**
+ * Слайд - область с картинками, текстом, полями ввода текста и добавления картинки
+ *
+ * @param {Array}    items          массив с объектами слайда
+ * @param {Number}   key            id индекс слайда
+ * @param {Function} onAddTextItem  обработчик добавления нового текстового блока в слайд
+ * @param {Function} onAddImageItem обработчик добавления нового блока с картинкой в слайд
+ */
 var Slide,
     R             = require('renderer'),
     Toolbar       = require('toolbar'),
     SlideItemList = require('./slide-item-list');
 
 Slide = function (props) {
-  this.props = props;
+  this.props     = props;
   this.className = 'slide';
 };
 
 Slide.prototype.getInitialState = function () {
   return {
+    // Внутрнее состояние, текст, который попадет в слайд при нажатии кнопки добавить
     textInputValue: ''
   };
 };
@@ -19,10 +28,10 @@ Slide.prototype.getDefaultProps = function () {
     items: [],
     key: 0,
     onAddTextItem: function (key) {
-      console.log('add slide text item ' + key);
+      console.error('add slide text item ' + key);
     },
     onAddImageItem: function (key) {
-      console.log('add slide image item ' + key);
+      console.error('add slide image item ' + key);
     }
   };
 };

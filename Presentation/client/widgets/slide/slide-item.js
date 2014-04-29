@@ -1,3 +1,11 @@
+/**
+ * Элемент слайда - блок с картинкой или текстом
+ *
+ * @param {Number}           key            индекс элемента слайда в массиве элементов
+ * @param {String}           item.type      тип элемента: text или image
+ * @param {String|undefined} item.text      текстовая строка, в случае, если тип элемента text
+ * @param {String|undefined} item.imageData dataUrl картинки, в случае, если тип элемента image
+ */
 var SlideItem,
     R = require('renderer');
 
