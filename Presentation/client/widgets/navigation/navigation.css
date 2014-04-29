@@ -1,0 +1,19 @@
+.navigation {
+  background-color: #eee;
+  text-align: center;
+  padding: 3px;
+}
+
+.navigation-indicator {
+  display: inline-block;
+  width: 5em;
+  text-align: center;
+}
+
+.navigation-button-prev {
+  width: 2em;
+}
+
+.navigation-button-next {
+  width: 2em; 
+}

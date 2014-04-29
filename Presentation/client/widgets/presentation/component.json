@@ -1,12 +1,13 @@
 {
-  "name": "presentation",
   "locals": [
-    "renderer"
-  ],
-  "paths": [
-    "../../lib"
+    "renderer",
+    "slide",
+    "navigation"
   ],
   "scripts": [
     "presentation.js"
+  ],
+  "styles": [
+    "presentation.css"
   ]
 }

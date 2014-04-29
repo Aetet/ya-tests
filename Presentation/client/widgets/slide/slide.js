@@ -1,18 +1,13 @@
 var Slide,
-    R            = require('renderer');
+    R = require('renderer');
 
-Slide = function () {};
-var Proto = Slide.prototype;
-
-Proto.getDefaultProps = function () {
-  return {
-    number: 1
-  };
+Slide = function (props) {
+  this.props = props;
 };
 
-Proto.render = function () {
+Slide.prototype.render = function () {
   return [
-    R('h3', 'Слайд № ' + this.props.number)
+    R('h3', {innerHTML: 'Слайд № ' + this.props.key})
   ];
 };
 

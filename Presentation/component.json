@@ -1,6 +1,6 @@
 {
-  "name": "presenter",
-  "description": "An presenter app",
+  "name": "Presentation dashboard",
+  "description": "A presentation dashboard app",
   "version": "0.0.1",
   "development": {
     "chaijs/chai": "^1.9.1",

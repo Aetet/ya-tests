@@ -1,0 +1,12 @@
+{
+  "locals": [
+    "presentation",
+    "renderer"
+  ],
+  "scripts": [
+    "presentation-dashboard.js"
+  ],
+  "styles": [
+    "presentation-dashboard.css"
+  ]
+}

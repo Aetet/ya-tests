@@ -1,10 +1,11 @@
-var Presenter    = require('presenter'),
-    Renderer     = require('renderer');
+var Main,
+    R                     = require('renderer'),
+    PresentationDashboard = require('presentation-dashboard');
 
-module.exports = {
+Main = {
   render: function (parentEl) {
-    var el = Renderer(Presenter);
-
-    parentEl.appendChild(el);
+    parentEl.appendChild(R(PresentationDashboard));
   }
 };
+
+module.exports = Main;

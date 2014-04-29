@@ -1,5 +1,7 @@
 {
-  "name": "slide",
+  "locals": [
+    "renderer"
+  ],
   "scripts": [
     "slide.js"
   ]

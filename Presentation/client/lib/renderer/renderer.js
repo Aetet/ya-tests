@@ -40,9 +40,13 @@ var Renderer = function (Prototype, options) {
     }
 
     el = document.createElement(component.root || 'div');
+
     if (options.className) {
       el.className = options.className;
+    } else if (component.className) {
+      el.className = component.className;
     }
+
     component.el = el;
     component.render().forEach(function (element) {
       el.appendChild(element);

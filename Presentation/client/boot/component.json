@@ -4,10 +4,13 @@
     "../lib"
   ],
   "locals": [
-    "presenter",
+    "presentation-dashboard",
     "renderer"
   ],
   "scripts": [
     "boot.js"
+  ],
+  "styles": [
+    "app.css"
   ]
 }

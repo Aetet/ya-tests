@@ -1,0 +1,11 @@
+{
+  "locals": [
+    "renderer"
+  ],
+  "scripts": [
+    "navigation.js"
+  ],
+  "styles": [
+    "navigation.css"
+  ]
+}

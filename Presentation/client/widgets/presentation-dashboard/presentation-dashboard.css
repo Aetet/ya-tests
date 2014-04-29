@@ -1,0 +1,16 @@
+.presentation_dashboard {
+  padding: 1em;
+  border: 1px solid gray;
+  padding-left: 100px;
+  padding-right: 100px;
+  width: 800px;
+}
+
+.presentation_dashboard-header {
+  margin: 0 0.3em;
+  text-align: center; 
+}
+
+.presentation_dashboard-button-add {
+
+}
