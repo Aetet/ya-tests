@@ -7,6 +7,12 @@ Slide = function (props) {
   this.className = 'slide';
 };
 
+Slide.prototype.getInitialState = function () {
+  return {
+    textInputValue: ''
+  };
+};
+
 Slide.prototype.getDefaultProps = function () {
   return {
     items: [],
@@ -17,10 +23,15 @@ Slide.prototype.getDefaultProps = function () {
   };
 };
 
-Slide.prototype.onAddTextItem = function () {
-  var text = 'example slide text';
+Slide.prototype.onSlideItemTextEnter = function (e) {
+  this.state.textInputValue = e.target.value;
+};
 
-  this.props.onAddTextItem(this.props.key, text);
+Slide.prototype.onAddTextItem = function () {
+  var text = this.state.textInputValue;
+  if (text) {
+    this.props.onAddTextItem(this.props.key, text);
+  }
 };
 
 Slide.prototype.render = function () {
@@ -31,7 +42,14 @@ Slide.prototype.render = function () {
   ].concat(props.items.map(function (item, index) {
     return R(SlideItem, {item: item, key: index});
   })).concat([
-    R('button', {innerHTML: '+ текст', onClick: this.onAddTextItem.bind(this), className: 'slide-button_text-add'})
+    R('button', {innerHTML: '+ текст', onClick: this.onAddTextItem.bind(this), className: 'slide-button_text-add'}),
+    R('input', {
+      type:     'text',
+      name:     'text-input',
+      value:    this.state.textInputValue,
+      onChange: this.onSlideItemTextEnter.bind(this),
+      className: 'slide-input_text'
+    })
   ]);
 };
 

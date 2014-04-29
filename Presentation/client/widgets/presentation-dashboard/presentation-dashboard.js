@@ -3,7 +3,7 @@ var PresentationDashboard,
     R            = require('renderer');
 
 PresentationDashboard = function (props) {
-  this.props = props;
+  this.props     = props;
   this.className = 'presentation_dashboard';
 };
 

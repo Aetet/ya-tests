@@ -7,16 +7,20 @@ var Renderer = function (Prototype, options) {
   options = options || {};
   if (isString(Prototype)) {
     el = document.createElement(Prototype);
-    if (options.className) {
-      el.className = options.className;
-    }
-    el.innerHTML = options.innerHTML;
-    if (options.onClick) {
-      el.addEventListener('click', options.onClick);
-    }
-    if (options.onChange) {
-      el.addEventListener('change', options.onChange);
-    }
+
+    ['innerHTML', 'type', 'name', 'value', 'className'].forEach(function (property) {
+      if (typeof options[property] !== 'undefined') {
+        el[property] = options[property];
+      }
+    });
+
+    ['click', 'change'].forEach(function (property) {
+      var eventName = 'on' + property.charAt(0).toUpperCase() + property.slice(1);
+      if (options[eventName]) {
+        el.addEventListener(property, options[eventName]);
+      }
+    });
+
   } else {
     component = new Prototype(options);
     if (!component.state) {
@@ -63,7 +67,7 @@ Renderer.refresh = function (component) {
   el.innerHTML = '';
   component.render().forEach(function (element) {
       el.appendChild(element);
-    });
+  });
 };
 
 Renderer.setState = function (component, state) {
