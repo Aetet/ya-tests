@@ -1,3 +1,9 @@
+/**
+ * Фрейм/плашка вокруг чего-либо, переданного через свойство children
+ *
+ * @param {Array}  props.children массив объектов HTMLElement
+ * @param {String} props.className
+ */
 var Toolbar;
 
 Toolbar = function (props) {

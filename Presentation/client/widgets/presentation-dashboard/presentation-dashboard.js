@@ -11,7 +11,6 @@ PresentationDashboard = function (props) {
 
 PresentationDashboard.prototype.getDefaultProps = function () {
   return {
-    storageKey: 'presentationDashboard',
     presentations: [{
       key: 0,
       slides: [],

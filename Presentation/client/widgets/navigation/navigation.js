@@ -1,20 +1,29 @@
+/**
+ * Навигация по слайдам: кнопки вперед, назад и номер текущего слайда
+ *
+ * props:
+ *
+ * @param {Function} onPrev callback срабатывает при нажатии кнопки назад
+ * @param {Function} onNext callback срабатывает при нажатии кнопки вперед
+ * @param {Number}   currentSlide номер текущего слайда (от 1)
+ * @param {Number}   totalSlides сколько всего слайдов
+ */
 var Navigation,
     R = require('renderer');
 
 Navigation = function (props) {
-  if (!props.onPrev) {
-    throw new TypeError('onPrev callback required');
-  }
-  if (!props.onNext) {
-    throw new TypeError('onNext callback required');
-  }
-  this.props = props;
-
+  this.props     = props;
   this.className = 'navigation';
 };
 
 Navigation.prototype.getDefaultProps = function () {
   return {
+    onNext: function () {
+      console.error('onNext callback required');
+    },
+    onPrev: function () {
+      console.error('onPrev callback required');
+    },
     currentSlide: 0,
     totalSlides: 0
   };

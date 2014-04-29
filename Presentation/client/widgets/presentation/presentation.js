@@ -1,3 +1,19 @@
+/**
+ * Презентация с активным слайдом и навигацией-переключателем по слайдам
+ *
+ * props:
+ *
+ * @param {Number}   key          id номер презентации
+ * @param {Array}    slides       массив слайдов
+ * @param {Number}   currentSlide текущий слайд
+ *
+ * @param {Function} onAddSlide(presentationKey) обработчик добавления нового слайда, presentationKey - id номер презентации
+ * @param {Function} onAddSlideTextItem(presentationKey, slideKey, text) обработчик добавления текста в слайд,
+ *                                                                       slideKey - id номер слайда, text - отображаемый текст
+ * @param {Function} onAddSlideImageItem(presentationKey, slideKey, imageData) обработчик добавления картинки в слайд, imageData - dataUrl картинки
+ * @param {Function} onNavigationPrev(presentationKey) обработчик кнопки назад в навигации
+ * @param {Function} onNavigationNext(presentationKey) обработчик кнопки вперед в навигации
+ */
 var Presenteration,
     R          = require('renderer'),
     Slide      = require('slide'),
@@ -15,19 +31,19 @@ Presentation.prototype.getDefaultProps = function () {
     slides: [],
     currentSlide: 0,
     onAddSlide: function (presentationKey) {
-      console.log('add slide ' + presentationKey);
+      console.error('add slide ' + presentationKey);
     },
     onAddSlideTextItem: function (presentationKey, slideKey, text) {
-      console.log('add slide text item for presentation ' + presentationKey, ' and slide ' + slideKey);
+      console.error('add slide text item for presentation ' + presentationKey, ' and slide ' + slideKey);
     },
     onAddSlideImageItem: function (presentationKey, slideKey, imageData) {
-      console.log('add slide image item for presentation ' + presentationKey, ' and slide ' + slideKey);
+      console.error('add slide image item for presentation ' + presentationKey, ' and slide ' + slideKey);
     },
     onNavigationPrev: function (presentationKey) {
-      console.log('prev slide ' + presentationKey);
+      console.error('prev slide ' + presentationKey);
     },
     onNavigationNext: function (presentationKey) {
-      console.log('next slide ' + presentationKey);
+      console.error('next slide ' + presentationKey);
     }
   };
 };
