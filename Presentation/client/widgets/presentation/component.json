@@ -2,7 +2,8 @@
   "locals": [
     "renderer",
     "slide",
-    "navigation"
+    "navigation",
+    "toolbar"
   ],
   "scripts": [
     "presentation.js"

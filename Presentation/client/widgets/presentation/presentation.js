@@ -1,6 +1,7 @@
 var Presenteration,
     R          = require('renderer'),
     Slide      = require('slide'),
+    Toolbar    = require('toolbar'),
     Navigation = require('navigation');
 
 Presentation = function (props) {
@@ -59,8 +60,7 @@ Presentation.prototype.render = function() {
 
   return [
     R('h2', {innerHTML: 'Презентация № ' + number,  className: 'presentation-header'})
-  ]
-  .concat(
+  ].concat(
     currentSlideIndex
       ? [R(Slide, {
           items:          currentSlide.items,
@@ -69,22 +69,30 @@ Presentation.prototype.render = function() {
           onAddImageItem: this.onAddSlideImageItem.bind(this),
         })]
       : []
-  )
-  .concat(
-    slides.length > 1
-      ? [R(Navigation, {
-          onPrev:       this.onNavigationPrev.bind(this),
-          onNext:       this.onNavigationNext.bind(this),
-          currentSlide: currentSlideIndex,
-          totalSlides:  slides.length
-        })]
-      : []
-  )
-  .concat([
-    R('button', {
-      innerHTML:  '+ слайд',
-      onClick:    this.onAddSlide.bind(this),
-      className: 'presentation-button-add'
+  ).concat(
+    slides.length > 1 ? [
+      R(Toolbar, {
+        className: 'presentation-navigation',
+        children: [
+          R(Navigation, {
+            onPrev:       this.onNavigationPrev.bind(this),
+            onNext:       this.onNavigationNext.bind(this),
+            currentSlide: currentSlideIndex,
+            totalSlides:  slides.length
+          })
+        ]
+      })
+    ]
+    : []
+  ).concat([
+    R(Toolbar, {
+      children: [
+        R('button', {
+          innerHTML:  '+ слайд',
+          onClick:    this.onAddSlide.bind(this),
+          className: 'toolbar-add'
+        })
+      ]
     })
   ]);
 };

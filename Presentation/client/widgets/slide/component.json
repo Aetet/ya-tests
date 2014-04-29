@@ -1,14 +1,17 @@
 {
   "locals": [
-    "renderer"
+    "renderer",
+    "toolbar"
   ],
   "scripts": [
     "slide.js",
+    "slide-item-list.js",
     "slide-item.js"
   ],
 
   "styles": [
     "slide.css",
+    "slide-item-list.css",
     "slide-item.css"
   ]
 }

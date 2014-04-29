@@ -1,7 +1,8 @@
 .navigation {
   background-color: #eee;
+  border: 1px solid #ddd;  
   text-align: center;
-  padding: 3px;
+  padding: 0.3em;
 }
 
 .navigation-indicator {

@@ -21,6 +21,12 @@ var Renderer = function (Prototype, options) {
       }
     });
 
+    if (options.children) {
+      options.children.forEach(function (element) {
+          el.appendChild(element);
+      });
+    }
+
   } else {
     component = new Prototype(options);
     if (!component.state) {

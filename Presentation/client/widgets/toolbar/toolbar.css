@@ -1,0 +1,9 @@
+.toolbar {
+  padding: 0.3em;
+  background-color: #eee;
+  border: 1px solid #ddd;
+}
+
+.toolbar-button {
+  margin-right: 0.3em;
+}

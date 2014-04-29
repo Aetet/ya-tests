@@ -1,6 +1,8 @@
 var PresentationDashboard,
-    Presentation = require('presentation'),
-    R            = require('renderer');
+    Presentation     = require('presentation'),
+    Toolbar          = require('toolbar'),
+    PresentationList = require('./presentation-list'),
+    R                = require('renderer');
 
 PresentationDashboard = function (props) {
   this.props     = props;
@@ -109,25 +111,27 @@ PresentationDashboard.prototype.render = function () {
       state = this.state;
 
   return [
-    R('h1', {innerHTML: 'Презентации', className: 'presentation_dashboard-header'})
-  ].concat(state.presentations.map(function(presentation, index) {
-    return R(Presentation, {
-      key:                 index,
-      slides:              presentation.slides,
-      currentSlide:        presentation.currentSlide,
+    R('h1', {innerHTML: 'Презентации', className: 'presentation_dashboard-header'}),
+    R(PresentationList, {
+      presentations:       state.presentations,
       onAddSlide:          this.onAddSlide.bind(this),
       onAddSlideTextItem:  this.onAddSlideTextItem.bind(this),
       onAddSlideImageItem: this.onAddSlideImageItem.bind(this),
       onNavigationPrev:    this.onNavigationPrev.bind(this),
       onNavigationNext:    this.onNavigationNext.bind(this)
-    });
-  }.bind(this))).concat([
-    R('button', {
-      innerHTML: '+ презентация',
-      onClick:   this.onAddPresentation.bind(this),
-      className: 'presentation_dashboard-button-add'
     })
-  ]);
+    ].concat([
+      R(Toolbar, {
+        className: 'toolbar',
+        children: [
+          R('button', {
+            innerHTML: '+ презентация',
+            onClick:   this.onAddPresentation.bind(this),
+            className: 'toolbar-button'
+          })
+        ]
+      })
+    ]);
 };
 
 module.exports = PresentationDashboard;
