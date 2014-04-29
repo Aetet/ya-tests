@@ -433,7 +433,7 @@
 
       if (diff.length) {
         console.log(diff);
-        log.innerHTML = '<ul><li>' + diff.map(diffFormat).join('</li><li>') + '</li></ul>' + log.innerHTML;
+        log.innerHTML = '<ul class="log-list"><li class="log-list-item">' + diff.map(diffFormat).join('</li><li class="log-list-item">') + '</li></ul>' + log.innerHTML;
       }
 
     });

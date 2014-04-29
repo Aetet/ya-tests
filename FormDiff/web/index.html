@@ -1,75 +1,82 @@
 <!doctype html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <title></title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="form.css"/>
+  <link rel="stylesheet" type="text/css" href="log.css"/>
+  <meta name="description" content=""/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
 </head>
 <body>
 <!--[if lt IE 8]>
   <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
+<div class="wrapper">
+  <form id="user-register" class="form" method="POST">
+    <div class="form-input">
+      <label for="name" class="form-input-label">Name:</label>
+      <input type="text" name="name" id="name" class="form-input-control" />
+    </div>
 
-<form id="user-register" method="POST">
-  <div>
-    <label for="name">Name:</label>
-    <input type="text" name="name" id="name" />
-  </div>
+    <div class="form-input">
+      <label for="email" class="form-input-label">Email:</label>
+      <input type="text" name="email" id="email" class="form-input-control" />
+    </div>
 
-  <div>
-    <label for="email">Email:</label>
-    <input type="text" name="email" id="email" />
-  </div>
+    <div class="form-radios">
+      <span class="form-radios-header">Gender:</span>
+      <span id="gender" class="form-radios-group">
+        <label class="form-radios-group-item">
+           <input type="radio" name="gender" value="male" class="form-radios-group-control" />
+           <span class="form-radios-group-label">Male</span>
+        </label>
 
-  <div>
-    <span>Gender:</span>
-    <span id="gender">
-      <label>
-         <input type="radio" name="gender" value="male" />
-         <span>Male</span>
+        <label class="form-radios-group-item">
+           <input type="radio" name="gender" value="female" class="form-radios-group-control" />
+           <span class="form-radios-group-label">Female</span>
+        </label>
+      </span>
+    </div>
+
+    <div class="form-multiselect">
+      <label for="tickets" class="form-multiselect-label">Tickets:</label>
+      <select name="tickets" id="tickets" multiple class="form-multiselect-control">
+        <option value="1">1 tickets</option>
+        <option value="2">2 tickets</option>
+        <option value="3">3 tickets</option>
+        <option value="4">4 tickets</option>
+      </select>
+    </div>
+
+    <div class="form-checkboxes">
+      <div class="form-checkboxes-header">Additional options: </div>
+      <label class="form-checkboxes-item">
+        <input type="checkbox" name="options" checked="checked" value="insurance" data-multiple="1" class="form-checkboxes-item-control"/>
+        <span class="form-checkboxes-item-label">Insurance</span>
       </label>
 
-      <label>
-         <input type="radio" name="gender" value="female" />
-         <span>Female</span>
+      <label class="form-checkboxes-item">
+        <input type="checkbox" name="options" value="tourism" data-multiple="1" class="form-checkboxes-item-control"/>
+        <span class="form-checkboxes-item-label">Tourism</span>
       </label>
-    </span>
+
+      <label class="form-checkboxes-item">
+        <input type="checkbox" name="options" value="sport" data-multiple="1" class="form-checkboxes-item-control"/>
+        <span class="form-checkboxes-item-label">Sport</span>
+      </label>
+    </div>
+    <div class="form-wrapper">
+      <div class="form-buttons">
+        <button class="form-buttons-save">Save</button>
+      </div>
+    <div>
+  </form>
+</div>
+
+<div class="wrapper">
+  <div id="log" class="log">
   </div>
-
-  <div>
-    <label for="tickets">Tickets:</label>
-    <select name="tickets" id="tickets" multiple>
-      <option value="1">1 tickets</option>
-      <option value="2">2 tickets</option>
-      <option value="3">3 tickets</option>
-      <option value="4">4 tickets</option>
-    </select>
-  </div>
-
-  <div>
-    <div>Additional options: </div>
-    <label>
-      <input type="checkbox" name="options" checked="checked" value="insurance" data-multiple="1" />
-      <span>Insurance</span>
-    </label>
-
-    <label>
-      <input type="checkbox" name="options" value="tourism" data-multiple="1" />
-      <span>Tourism</span>
-    </label>
-
-    <label>
-      <input type="checkbox" name="options" value="sport" data-multiple="1" />
-      <span>Sport</span>
-    </label>
-
-  </div>
-
-  <button>Save</button>
-</form>
-
-<div id="log">
 </div>
 
 <script src="../js/formDiff.js" ></script>

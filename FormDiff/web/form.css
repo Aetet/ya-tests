@@ -1,0 +1,76 @@
+.form {
+
+}
+
+.form-input {
+  padding: 0.3em;
+}
+.form-input-label {
+
+}
+.form-input-control {
+
+}
+
+
+.form-radios {
+  padding: 0.3em;
+}
+.form-radios-header {
+
+}
+.form-radios-group {
+
+}
+.form-radios-group-item {
+
+}
+.form-radios-group-control {
+
+}
+.form-radios-group-label {
+
+}
+
+
+.form-multiselect {
+  padding: 0.3em;
+}
+.form-multiselect-label {
+
+}
+.form-multiselect-control {
+
+}
+
+
+.form-checkboxes {
+  padding: 0.3em;
+}
+.form-checkboxes-header {
+
+}
+.form-checkboxes-item {
+
+}
+.form-checkboxes-item-control {
+
+}
+.form-checkboxes-item-label {
+
+}
+
+
+.form-wrapper {
+  padding: 0.3em;
+}
+
+
+.form-buttons {
+  padding: 0.5em 0;
+  border: 1px solid #777;
+  background-color: #eee;
+}
+.form-buttons-save {
+
+}
