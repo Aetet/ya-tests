@@ -3,7 +3,7 @@ module.exports = function(config) {
     frameworks: [ 'mocha', 'chai', 'sinon' ],
     files: [
       'web/build/build.js',
-      'client/**/*-test.js'
+      'web/build/test.js'
     ],
     reporters: [ 'progress' ],
     colors: true,
