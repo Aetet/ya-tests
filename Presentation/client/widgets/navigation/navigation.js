@@ -32,6 +32,12 @@ Navigation.prototype.getDefaultProps = function () {
 Navigation.prototype.render = function () {
   var props = this.props;
 
+  if (!props.totalSlides) {
+    return [
+      R('div', {innerHTML: 'нет ни одного слайда', className: 'navigation-button-noButtons'})
+    ];
+  }
+
   return [
     R('button', {innerHTML: '<', onClick: props.onPrev, className: 'navigation-button-prev'}),
     R('span',   {innerHTML: props.currentSlide + ' из ' + props.totalSlides, className: 'navigation-indicator'}),

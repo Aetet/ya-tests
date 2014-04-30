@@ -8,7 +8,8 @@
     "renderer"
   ],
   "scripts": [
-    "boot.js"
+    "boot.js",
+    "presentation-data.js"
   ],
   "styles": [
     "app.css"

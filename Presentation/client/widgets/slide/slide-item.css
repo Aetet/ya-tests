@@ -1,9 +1,6 @@
 .slide_item {
-  border: 1px solid #ddd;
-  padding: 0.1em;
-  overflow: scroll;
-  max-width: 700px;
-  max-height: 400px;
+  border: 0px solid #ddd;
+  padding: 0;
 }
 
 .slide_item-text {

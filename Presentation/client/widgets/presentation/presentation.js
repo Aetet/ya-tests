@@ -75,32 +75,33 @@ Presentation.prototype.render = function() {
       number            = this.props.key + 1;
 
   return [
-    R('h2', {innerHTML: 'Презентация № ' + number,  className: 'presentation-header'})
-  ].concat(
-    currentSlideIndex
-      ? [R(Slide, {
-          items:          currentSlide.items,
-          key:            currentSlideIndex - 1,
-          onAddTextItem:  this.onAddSlideTextItem.bind(this),
-          onAddImageItem: this.onAddSlideImageItem.bind(this),
-        })]
-      : []
-  ).concat(
-    slides.length > 1 ? [
-      R(Toolbar, {
-        className: 'presentation-navigation',
-        children: [
-          R(Navigation, {
-            onPrev:       this.onNavigationPrev.bind(this),
-            onNext:       this.onNavigationNext.bind(this),
-            currentSlide: currentSlideIndex,
-            totalSlides:  slides.length
+    R('h2', {innerHTML: 'Презентация № ' + number,  className: 'presentation-header'}),
+    R('div', {
+      className: 'presentation-slideWrapper',
+      children: (
+        (currentSlideIndex ? [
+          R(Slide, {
+            items:          currentSlide.items,
+            key:            currentSlideIndex - 1,
+            onAddTextItem:  this.onAddSlideTextItem.bind(this),
+            onAddImageItem: this.onAddSlideImageItem.bind(this),
           })
-        ]
-      })
-    ]
-    : []
-  ).concat([
+        ]: [])
+      )
+    })
+  ].concat([
+    R(Toolbar, {
+      className: 'presentation-navigation',
+      children: [
+        R(Navigation, {
+          onPrev:       this.onNavigationPrev.bind(this),
+          onNext:       this.onNavigationNext.bind(this),
+          currentSlide: currentSlideIndex,
+          totalSlides:  slides.length
+        })
+      ]
+    }),
+
     R(Toolbar, {
       children: [
         R('button', {

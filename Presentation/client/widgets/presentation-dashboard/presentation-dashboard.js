@@ -14,8 +14,12 @@
  *     currentSlide: 0,
  *     slides: [
  *       {
- *          type: 'text',
- *          text: 'hello'
+ *         items: [
+ *           {
+ *             type: 'text',
+ *             text: 'hello'
+ *           }
+ *         ]
  *       }
  *     ]
  *   }
@@ -165,7 +169,6 @@ PresentationDashboard.prototype.render = function () {
       state = this.state;
 
   return [
-    R('h1', {innerHTML: 'Презентации', className: 'presentation_dashboard-header'}),
     R(PresentationList, {
       presentations:       state.presentations,
       onAddSlide:          this.onAddSlide.bind(this),

@@ -1,9 +1,5 @@
 .presentation_dashboard {
-  padding: 1em;
-  border: 1px solid gray;
-  padding-left: 100px;
-  padding-right: 100px;
-  width: 800px;
+  padding: 10px 100px;
 }
 
 .presentation_dashboard-header {

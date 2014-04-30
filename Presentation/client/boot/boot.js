@@ -3,7 +3,8 @@
  */
 var Boot,
     R                     = require('renderer'),
-    PresentationDashboard = require('presentation-dashboard');
+    PresentationDashboard = require('presentation-dashboard'),
+    Data                  = require('./presentation-data');
 
 Boot = {
   /**
@@ -12,7 +13,7 @@ Boot = {
    * @param {HTMLElement} parentEl родительский элемент, куда будет отображаться приложение
    */
   render: function (parentEl) {
-    parentEl.appendChild(R(PresentationDashboard));
+    parentEl.appendChild(R(PresentationDashboard, Data));
   }
 };
 
