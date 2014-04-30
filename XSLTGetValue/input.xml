@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
+<?xml-stylesheet type="text/xml" href="get_value.xsl"?>
 <params>
-  <param name="url">http://test.ru</param>
-  <param name="user">Vasia</param>
+  <param name="url" value="http://test.ru"/>
+  <param name="user" value="Vasia"/>
 </params>

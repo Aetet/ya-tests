@@ -2,10 +2,24 @@
 <xsl:stylesheet version="1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-<xsl:template match="params/*">
-  <xsl:for-each select="param[@name='url']">
-    <xsl:value-of select="@value"/>
-  </xsl:for-each>
+<xsl:template match="/">
+  <html>
+  <body>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+      </tr>
+      <xsl:for-each select="params/param">
+      <tr>
+        <td><xsl:value-of select="@name"/></td>
+        <td><xsl:value-of select="@value"/></td>
+      </tr>
+      </xsl:for-each>
+    </table>
+  </body>
+  </html>
 </xsl:template>
 
 </xsl:stylesheet>
+
