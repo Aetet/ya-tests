@@ -2,7 +2,7 @@
   "name": "FormDiff",
   "version": "0.0.1",
   "description": "Form diff component",
-  "main": "js/formDiff.js",
+  "main": "src/formDiff.js",
   "scripts": {
     "test": "node_modules/.bin/mocha -R spec"
   },
