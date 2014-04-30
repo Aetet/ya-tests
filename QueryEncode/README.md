@@ -1,1 +1,0 @@
-QueryEncoder - query parameters to url

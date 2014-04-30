@@ -1,5 +1,5 @@
 var expect      = require('chai').expect,
-    diffObjects = require('../js/formDiff').diffObjects;
+    diffObjects = require('../src/formDiff').diffObjects;
 
 describe('formDiff.diffObjects', function () {
   it('should throw exception if not an oject given', function () {

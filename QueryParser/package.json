@@ -1,8 +1,8 @@
 {
-  "name": "query-parse",
+  "name": "QueryParser",
   "version": "0.0.1",
   "description": "Query string parser",
-  "main": "query.js",
+  "main": "index.js",
   "scripts": {
     "test": "node_modules/.bin/mocha -R spec"
   },

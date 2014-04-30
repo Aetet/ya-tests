@@ -1,22 +1,17 @@
-Presenter
+Презентации
 =========
 
-Installation
+Установка
 ------------
 
 `npm i`
 
-Dev Build
+Сборка
 -----
 
 `node_modules/.bin/component build -d -o web/build`
 
-Run
+Запуск
 ---
 
-In browser open file web/index.html
-
-Testing
--------
-
-In browser open file web/test.html
+Открыть в браузере файл web/index.html

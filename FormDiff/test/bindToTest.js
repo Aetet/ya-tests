@@ -1,7 +1,7 @@
 var chai      = require('chai'),
     expect    = chai.expect,
     sinon     = require('sinon'),
-    bindTo    = require('../js/formDiff').bindTo,
+    bindTo    = require('../src/formDiff').bindTo,
     sinonChai = require('sinon-chai');
 
 chai.expect();

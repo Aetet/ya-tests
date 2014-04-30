@@ -1,5 +1,5 @@
 var expect        = require('chai').expect,
-    serializeForm = require('../js/formDiff').serializeForm;
+    serializeForm = require('../src/formDiff').serializeForm;
 /**
  * В идеале надо тестировать serializeForm на реальной форме, через браузер, для упрощения ограничимся заглушкой
  */
