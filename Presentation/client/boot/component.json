@@ -13,5 +13,8 @@
   ],
   "styles": [
     "app.css"
+  ],
+  "testScripts": [
+    "boot-test.js"
   ]
 }
