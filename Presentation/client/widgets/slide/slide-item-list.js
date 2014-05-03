@@ -2,7 +2,8 @@
  * Список элементов слайда - область с картинками, текстом
  *
  * @param {Array}    items массив с объектами слайда
- */var SlideItemList,
+ */
+ var SlideItemList,
     R         = require('renderer'),
     SlideItem = require('./slide-item');
 

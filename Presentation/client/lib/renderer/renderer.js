@@ -23,9 +23,7 @@ isString = function (value) {
  *
  * @param {Object|String}    Prototype        имя тега или прототип с методом render, который возвращает массив HTMLElement
  *
- * @param {String}             Prototype.root            по-умолчанию div, имя тега создаваемого HTMLElement
- * @param {Function}           Prototype.render          метод, который должен возвращать массив HTMLElement-объектов
- * @param {String}             Prototype.className       имя класса создаваемого элемента
+ * @param {Function}           Prototype.render          метод, который должен возвращать HTMLElement
  * @param {Function|undefined} Prototype.getInitialState хэш свойств, начальное состояние объекта
  * @param {Function|undefined} Prototype.getDefaultProps хэш свойств, свойства объекта, если не заданы из вне
  *
