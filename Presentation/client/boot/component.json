@@ -5,7 +5,8 @@
   ],
   "locals": [
     "presentation-dashboard",
-    "renderer"
+    "renderer",
+    "test-utils"
   ],
   "scripts": [
     "boot.js",

@@ -20,7 +20,6 @@
     "chai": "^1.9.1",
     "sinon": "^1.9.1",
     "mocha": "^1.18.2",
-    "gulp-karma": "0.0.4",
     "gulp": "^3.6.2",
     "gulp-util": "^2.2.14",
     "gulp-clean": "^0.2.4",
@@ -36,6 +35,14 @@
     "component-build": "^1.2.0",
     "event-stream": "^3.1.5",
     "gulp-minify-css": "^0.3.4",
-    "component": "^1.0.0-rc5"
+    "component": "^1.0.0-rc5",
+    "chai-jquery": "^1.2.1",
+    "karma-chai-plugins": "^0.2.1",
+    "sinon-chai": "^2.5.0",
+    "chai-as-promised": "^4.1.1",
+    "chai-things": "^0.2.0",
+    "jquery": "^2.1.1",
+    "gulp-notify": "^1.2.5",
+    "gulp-karma": "git+https://github.com/lazd/gulp-karma.git#helper"
   }
 }

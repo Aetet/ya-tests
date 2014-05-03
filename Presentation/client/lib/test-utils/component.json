@@ -1,0 +1,10 @@
+{
+  "development": {
+    "scripts": [
+      "test-utils.js"
+    ],
+    "locals": [
+      "renderer"
+    ]
+  }
+}

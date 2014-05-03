@@ -1,14 +1,17 @@
+var jqueryPath = require.resolve('jquery');
+
 module.exports = function(config) {
   config.set({
-    frameworks: [ 'mocha', 'chai', 'sinon' ],
+    frameworks: ['mocha', 'sinon', 'chai', 'chai-jquery', 'chai-as-promised', 'sinon-chai'],
     files: [
+      jqueryPath,
       'web/build/build.js',
       'client/**/*-test.js'
-    ],
+    ].concat(config.files),
     reporters: [ 'progress' ],
     colors: true,
     logLevel: config.LOG_INFO,
-    autoWatch: true,
+    autoWatch: false,
     browsers: [ 'PhantomJS' ],
     //browsers: [ 'Chrome' ],
     browserDisconnectTimeout: 10000,

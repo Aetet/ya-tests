@@ -3,15 +3,20 @@ var isProd,
     gulp      = require('gulp'),
     gutil     = require('gulp-util'),
     clean     = require('gulp-clean'),
-    karma     = require('gulp-karma'),
     uglifyjs  = require('gulp-uglifyjs'),
     minifyCSS = require('gulp-minify-css'),
     pushState = require('connect-pushstate/lib/pushstate').pushState,
     connect   = require('gulp-connect'),
     concat    = require('gulp-concat-util'),
+    notify    = require('gulp-notify'),
     component    = require('./component-gulp-adapter'),
     args         = require('yargs').argv,
+    path         = require('path'),
     es           = require("event-stream");
+
+var karma = require('gulp-karma')({
+  configFile: 'karma.conf.js'
+});
 
 isProd       = args.production;
 appConfigEnv = args.target || (isProd ? 'production' : 'development');
@@ -24,9 +29,17 @@ var dirs = {
   src: 'client'
 };
 
-var testFiles = [
-  dirs.build + '/*.js',
-  dirs.src + '/**/*-test.js'
+var testlibs = [
+  require.resolve('jquery'),
+  path.join(path.dirname(require.resolve('chai')), 'chai.js'),
+  path.join(path.dirname(require.resolve('mocha')), 'mocha.js'),
+  require.resolve('chai-jquery'),
+  require.resolve('sinon-chai'),
+  path.join(path.dirname(require.resolve('sinon')), '..', 'pkg', 'sinon.js')
+];
+
+var testStyles = [
+  path.join(path.dirname(require.resolve('mocha')), 'mocha.css')
 ];
 
 var programName = 'build';
@@ -63,14 +76,37 @@ gulp.task('clean', function() {
   }).pipe(clean());
 });
 
+gulp.task('build:testlibs', ['build'], function() {
+  return gulp.src(testlibs)
+  .pipe(concat('build-testlibs.js'))
+  .pipe(gulp.dest(dirs.build));
+});
 
-gulp.task('watch', ['build', 'connect'], function () {
-  gulp.watch(dirs.src + '/**/*', function () {
-    gulp.run('build');
-  });
-  gulp.watch(dirs.build + '/**').on('change', function(file) {
-    connect.reload();
-  });
+gulp.task('build:teststyles', function() {
+  return gulp.src(testStyles)
+  .pipe(concat('build-teststyles.css'))
+  .pipe(gulp.dest(dirs.build));
+});
+
+gulp.task('build:tests', ['build:testlibs', 'build:teststyles'], function() {
+  return gulp.src(dirs.src + '/**/*-test.js')
+  .pipe(concat('build-tests.js'))
+  .pipe(gulp.dest(dirs.build));
+});
+
+gulp.task('karma:run', ['build'], function () {
+  var run = karma.run();
+  run.fail(notify.onError('Tests failed: <%= code %>'));
+  return run;
+});
+
+gulp.task('connect:reload', ['build:tests'], function () {
+  connect.reload();
+});
+
+gulp.task('watch', ['connect', 'build:tests'], function () {
+  karma.start().then(karma.run);
+  gulp.watch([dirs.src + '/**/*'], ['connect:reload', 'karma:run']);
 });
 
 gulp.task('component:build', function (done) {
@@ -97,14 +133,7 @@ gulp.task('component:build', function (done) {
 });
 
 gulp.task('test', ['build'], function() {
-  return gulp.src(testFiles)
-    .pipe(karma({
-      configFile: 'karma.conf.js',
-      action: args.nowatch ? 'run' : 'watch'
-    }))
-    .on('error', function(err) {
-      throw new gutil.PluginError('test', err);
-    });
+  return karma.once({});
 });
 
 gulp.task('build', ['component:build']);
@@ -115,9 +144,8 @@ gutil.log('**********************************************');
 gutil.log('* gulp              (development build)');
 gutil.log('* gulp --production (production build)');
 gutil.log('* gulp clean        (rm /web/build)');
-gutil.log('* gulp test         (run karma tests and watch)');
-gutil.log('* gulp test --nowatch (run karma tests and exit)');
-gutil.log('* gulp watch        (build and run dev server)');
+gutil.log('* gulp test         (run karma tests and exit)');
+gutil.log('* gulp watch        (build and run tests and dev server)');
 gutil.log('');
 gutil.log('Current environment: ' + appConfigEnv);
 gutil.log('**********************************************');
