@@ -3,13 +3,14 @@ module.exports = function(config) {
     frameworks: [ 'mocha', 'chai', 'sinon' ],
     files: [
       'web/build/build.js',
-      'web/build/test.js'
+      'client/**/*-test.js'
     ],
     reporters: [ 'progress' ],
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: [ 'PhantomJS' ],
+    //browsers: [ 'Chrome' ],
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 2,
     captureTimeout: 60000,
