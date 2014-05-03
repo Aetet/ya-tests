@@ -7,7 +7,7 @@ module.exports = function(config) {
       jqueryPath,
       'web/build/presentation.js',
       'client/**/*-test.js'
-    ].concat(config.files),
+    ],
     reporters: [ 'progress' ],
     colors: true,
     logLevel: config.LOG_INFO,
@@ -17,7 +17,7 @@ module.exports = function(config) {
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 2,
     captureTimeout: 60000,
-    singleRun: false,
+    singleRun: true,
     browserNoActivityTimeout: 20000
   });
 };

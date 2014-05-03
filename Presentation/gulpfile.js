@@ -132,8 +132,8 @@ gulp.task('component:build', function (done) {
   });
 });
 
-gulp.task('test', ['build'], function() {
-  return karma.once({});
+gulp.task('test',['build'], function() {
+  return karma.once();
 });
 
 gulp.task('build', ['component:build']);
