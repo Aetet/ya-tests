@@ -10,8 +10,7 @@ var SlideItem,
     R = require('renderer');
 
 SlideItem = function (props) {
-  this.props     = props;
-  this.className = 'slide_item';
+  this.props = props;
 };
 
 SlideItem.prototype.getDefaultProps = function () {
@@ -24,11 +23,12 @@ SlideItem.prototype.getDefaultProps = function () {
 SlideItem.prototype.render = function () {
   var item = this.props.item;
 
-  return [
-    item.type === 'text'
-      ? R('p', {innerHTML: item.text, className: 'slide_item-text'})
-      : R('img', {src: item.imageData, className: 'slide_item-image'})
-  ];
+  return R('div', {
+    className: 'slide_item',
+    children: item.type === 'text'
+      ? [R('p', {innerHTML: item.text, className: 'slide_item-text'})]
+      : [R('img', {src: item.imageData, className: 'slide_item-image'})]
+  });
 };
 
 module.exports = SlideItem;

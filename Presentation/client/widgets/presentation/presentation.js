@@ -22,7 +22,6 @@ var Presenteration,
 
 Presentation = function (props) {
   this.props     = props;
-  this.className = 'presentation';
 };
 
 Presentation.prototype.getDefaultProps = function () {
@@ -74,44 +73,43 @@ Presentation.prototype.render = function() {
       currentSlide      = slides[this.props.currentSlide - 1],
       number            = this.props.key + 1;
 
-  return [
-    R('h2', {innerHTML: 'Презентация № ' + number,  className: 'presentation-header'}),
-    R('div', {
-      className: 'presentation-slideWrapper',
-      children: (
-        (currentSlideIndex ? [
-          R(Slide, {
-            items:          currentSlide.items,
-            key:            currentSlideIndex - 1,
-            onAddTextItem:  this.onAddSlideTextItem.bind(this),
-            onAddImageItem: this.onAddSlideImageItem.bind(this),
+  return R('div', {
+    className: 'presentation',
+    children: [
+      R('h2', {innerHTML: 'Презентация № ' + number,  className: 'presentation-header'}),
+      R('div', {
+        className: 'presentation-slideWrapper',
+        children: (
+          (currentSlideIndex ? [
+            R(Slide, {
+              items:          currentSlide.items,
+              key:            currentSlideIndex - 1,
+              onAddTextItem:  this.onAddSlideTextItem.bind(this),
+              onAddImageItem: this.onAddSlideImageItem.bind(this),
+            })
+          ]: [])
+        )
+      }),
+      R(Toolbar, {
+        className: 'presentation-navigation',
+        children: [
+          R(Navigation, {
+            onPrev:       this.onNavigationPrev.bind(this),
+            onNext:       this.onNavigationNext.bind(this),
+            currentSlide: currentSlideIndex,
+            totalSlides:  slides.length,
+            children: [
+              R('button', {
+                innerHTML:  '+ слайд',
+                onClick:    this.onAddSlide.bind(this),
+                className: 'navigation-button-add'
+              })
+            ]
           })
-        ]: [])
-      )
-    })
-  ].concat([
-    R(Toolbar, {
-      className: 'presentation-navigation',
-      children: [
-        R(Navigation, {
-          onPrev:       this.onNavigationPrev.bind(this),
-          onNext:       this.onNavigationNext.bind(this),
-          currentSlide: currentSlideIndex,
-          totalSlides:  slides.length
-        })
-      ]
-    }),
-
-    R(Toolbar, {
-      children: [
-        R('button', {
-          innerHTML:  '+ слайд',
-          onClick:    this.onAddSlide.bind(this),
-          className: 'toolbar-add'
-        })
-      ]
-    })
-  ]);
+        ]
+      })
+    ]
+  });
 };
 
 module.exports = Presentation;

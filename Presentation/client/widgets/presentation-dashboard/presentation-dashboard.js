@@ -33,7 +33,6 @@ var PresentationDashboard,
 
 PresentationDashboard = function (props) {
   this.props     = props;
-  this.className = 'presentation_dashboard';
 };
 
 PresentationDashboard.prototype.getDefaultProps = function () {
@@ -168,26 +167,29 @@ PresentationDashboard.prototype.render = function () {
   var props = this.props,
       state = this.state;
 
-  return [
-    R(PresentationList, {
-      presentations:       state.presentations,
-      onAddSlide:          this.onAddSlide.bind(this),
-      onAddSlideTextItem:  this.onAddSlideTextItem.bind(this),
-      onAddSlideImageItem: this.onAddSlideImageItem.bind(this),
-      onNavigationPrev:    this.onNavigationPrev.bind(this),
-      onNavigationNext:    this.onNavigationNext.bind(this)
-    }),
-    R(Toolbar, {
-      className: 'toolbar',
-      children: [
-        R('button', {
-          innerHTML: '+ презентация',
-          onClick:   this.onAddPresentation.bind(this),
-          className: 'toolbar-button'
-        })
-      ]
-    })
-  ];
+  return R('div', {
+    className: 'presentation_dashboard',
+    children: [
+      R(PresentationList, {
+        presentations:       state.presentations,
+        onAddSlide:          this.onAddSlide.bind(this),
+        onAddSlideTextItem:  this.onAddSlideTextItem.bind(this),
+        onAddSlideImageItem: this.onAddSlideImageItem.bind(this),
+        onNavigationPrev:    this.onNavigationPrev.bind(this),
+        onNavigationNext:    this.onNavigationNext.bind(this)
+      }),
+      R(Toolbar, {
+        className: 'toolbar',
+        children: [
+          R('button', {
+            innerHTML: '+ презентация',
+            onClick:   this.onAddPresentation.bind(this),
+            className: 'toolbar-button'
+          })
+        ]
+      })
+    ]
+  });
 };
 
 module.exports = PresentationDashboard;

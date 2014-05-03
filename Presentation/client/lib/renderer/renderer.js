@@ -43,9 +43,7 @@ isString = function (value) {
  * 2. В него добавляются свойства state:{} и props: {]}, если их там еще нет
  * 3. Если объект содержит метод getDefaultProps, который возвращает хэш свойств, то эти свойства копируются в props без перезаписи
  * 4. Если объект содержит метод getInitialState, который возвращает хэш свойств, то эти свойства копируются в state
- * 5. Создается HTMLElement с именем тега div, если таковой не задан в свойстве root объекта
- * 6. Устанавливается имя класса
- * 7. Вызывается метод render и полученный массив HTMLElement при помоще appendChild добавляется в созданый в п. 5 div
+ * 5. Вызывается метод render и полученный HTMLElement возвращается
  *
  * @example
  *
@@ -63,9 +61,11 @@ isString = function (value) {
  *   this.className = 'test';
  * };
  * TestElement.prototype.render = function () {
- *   return [
- *     Renderer('span', {innerHTML: this.props.title, className: 'subheader'})
- *   ];
+ *   return Renderer('div', {
+ *     children: [
+ *       Renderer('span', {innerHTML: this.props.title, className: 'subheader'})
+ *     ]
+ *   });
  * }
  * Renderer(TestElement, {title: 'test'})
  * // <div class="test"><span class="subheader">test</span></div>
@@ -119,18 +119,8 @@ Renderer = function (Prototype, options) {
       component.state = component.getInitialState();
     }
 
-    el = document.createElement(component.root || 'div');
-
-    if (options.className) {
-      el.className = options.className;
-    } else if (component.className) {
-      el.className = component.className;
-    }
-
+    el = component.render();
     component.el = el;
-    component.render().forEach(function (element) {
-      el.appendChild(element);
-    });
   }
 
   return el;
@@ -142,11 +132,9 @@ Renderer = function (Prototype, options) {
  * @param {Object} component
  */
 Renderer.refresh = function (component) {
-  var el = component.el;
-  el.innerHTML = '';
-  component.render().forEach(function (element) {
-      el.appendChild(element);
-  });
+  var oldEl = component.el;
+  component.el = component.render();
+  oldEl.parentNode.replaceChild(component.el, oldEl);
 };
 
 /**

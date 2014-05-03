@@ -1,7 +1,6 @@
 .navigation {
   background-color: #eee;
-  border: 1px solid #ddd;  
-  text-align: center;
+  border: 1px solid #ddd;
   padding: 0.3em;
 }
 
@@ -16,5 +15,16 @@
 }
 
 .navigation-button-next {
-  width: 2em; 
+  width: 2em;
+}
+
+.navigation-wrapper-left {
+  display: inline-block;
+  padding-right: 0.5em;
+}
+
+.navigation-wrapper-right {
+  display: inline-block;
+  text-align: left;
+  padding-left: 0.5em;
 }

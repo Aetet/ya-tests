@@ -12,8 +12,7 @@ var Slide,
     SlideItemList = require('./slide-item-list');
 
 Slide = function (props) {
-  this.props     = props;
-  this.className = 'slide';
+  this.props = props;
 };
 
 Slide.prototype.getInitialState = function () {
@@ -67,29 +66,31 @@ Slide.prototype.onAddImageItem = function (imageData) {
 Slide.prototype.render = function () {
   var props = this.props;
 
-  return [
-    R('h3', {innerHTML: 'Слайд № ' + (props.key + 1), className: 'slide-header'}),
-    R(SlideItemList, {items: props.items})
-  ].concat([
-    R(Toolbar, {
-      children: [
-        R('button', {innerHTML: '+ текст', onClick: this.onAddTextItem.bind(this), className: 'toolbar-add'}),
-        R('input', {
-          type:     'text',
-          name:     'text-input',
-          value:    this.state.textInputValue,
-          onChange: this.onSlideItemTextEnter.bind(this),
-          className: 'toolbar-input-text'
-        }),
-        R('input', {
-          type:     'file',
-          name:     'image-input',
-          onChange: this.onSlideItemImageEnter.bind(this),
-          className: 'toolbar-input-image'
-        })
-      ]
-    })
-  ]);
+  return R('div', {
+    className: 'slide',
+    children: [
+      R('h3', {innerHTML: 'Слайд № ' + (props.key + 1), className: 'slide-header'}),
+      R(SlideItemList, {items: props.items}),
+      R(Toolbar, {
+        children: [
+          R('button', {innerHTML: '+ текст', onClick: this.onAddTextItem.bind(this), className: 'toolbar-add'}),
+          R('input', {
+            type:     'text',
+            name:     'text-input',
+            value:    this.state.textInputValue,
+            onChange: this.onSlideItemTextEnter.bind(this),
+            className: 'toolbar-input-text'
+          }),
+          R('input', {
+            type:     'file',
+            name:     'image-input',
+            onChange: this.onSlideItemImageEnter.bind(this),
+            className: 'toolbar-input-image'
+          })
+        ]
+      })
+    ]
+  });
 };
 
 module.exports = Slide;

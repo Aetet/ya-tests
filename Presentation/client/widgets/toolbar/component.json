@@ -1,4 +1,7 @@
 {
+  "locals": [
+    "toolbar"
+  ],
   "scripts": [
     "toolbar.js"
   ],

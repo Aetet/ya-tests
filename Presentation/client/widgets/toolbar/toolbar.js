@@ -4,15 +4,24 @@
  * @param {Array}  props.children массив объектов HTMLElement
  * @param {String} props.className
  */
-var Toolbar;
+var Toolbar,
+    R = require('renderer');
 
 Toolbar = function (props) {
   this.props     = props;
-  this.className = props.className || 'toolbar';
+};
+
+Toolbar.prototype.getDefaultProps = function () {
+  return {
+    className: 'toolbar'
+  };
 };
 
 Toolbar.prototype.render = function () {
-  return this.props.children;
+  return R('div', {
+    className: this.props.className,
+    children: this.props.children
+  });
 };
 
 module.exports = Toolbar;

@@ -13,11 +13,11 @@ var Navigation,
 
 Navigation = function (props) {
   this.props     = props;
-  this.className = 'navigation';
 };
 
 Navigation.prototype.getDefaultProps = function () {
   return {
+    children: [],
     onNext: function () {
       console.error('onNext callback required');
     },
@@ -32,17 +32,25 @@ Navigation.prototype.getDefaultProps = function () {
 Navigation.prototype.render = function () {
   var props = this.props;
 
-  if (!props.totalSlides) {
-    return [
-      R('div', {innerHTML: 'нет ни одного слайда', className: 'navigation-button-noButtons'})
-    ];
-  }
-
-  return [
-    R('button', {innerHTML: '<', onClick: props.onPrev, className: 'navigation-button-prev'}),
-    R('span',   {innerHTML: props.currentSlide + ' из ' + props.totalSlides, className: 'navigation-indicator'}),
-    R('button', {innerHTML: '>', onClick: props.onNext, className: 'navigation-button-next'})
-  ];
+  return R('div', {
+    className: 'navigation',
+    children: [
+      R('div', {
+        className: 'navigation-wrapper-left',
+        children : props.children
+      }),
+      R('div', {
+        className: 'navigation-wrapper-right',
+        children : props.totalSlides ? [
+          R('button', {innerHTML: '<', onClick: props.onPrev, className: 'navigation-button-prev'}),
+          R('span',   {innerHTML: props.currentSlide + ' из ' + props.totalSlides, className: 'navigation-indicator'}),
+          R('button', {innerHTML: '>', onClick: props.onNext, className: 'navigation-button-next'})
+        ] : [
+          R('div', {innerHTML: 'нет ни одного слайда', className: 'navigation-button-noButtons'})
+        ]
+      })
+    ]
+  });
 };
 
 module.exports = Navigation;

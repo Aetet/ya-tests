@@ -15,7 +15,6 @@ var PresentationList,
 
 PresentationList = function (props) {
   this.props     = props;
-  this.className = 'presentation_list';
 };
 
 PresentationList.prototype.getDefaultProps = function () {
@@ -42,18 +41,21 @@ PresentationList.prototype.getDefaultProps = function () {
 PresentationList.prototype.render = function () {
   var props = this.props;
 
-  return props.presentations.map(function(presentation, index) {
-    return R(Presentation, {
-      key:                 index,
-      slides:              presentation.slides,
-      currentSlide:        presentation.currentSlide,
-      onAddSlide:          props.onAddSlide,
-      onAddSlideTextItem:  props.onAddSlideTextItem,
-      onAddSlideImageItem: props.onAddSlideImageItem,
-      onNavigationPrev:    props.onNavigationPrev,
-      onNavigationNext:    props.onNavigationNext
-    });
-  }.bind(this));
+  return R('div', {
+    className: 'presentation_list',
+    children: props.presentations.map(function(presentation, index) {
+      return R(Presentation, {
+        key:                 index,
+        slides:              presentation.slides,
+        currentSlide:        presentation.currentSlide,
+        onAddSlide:          props.onAddSlide,
+        onAddSlideTextItem:  props.onAddSlideTextItem,
+        onAddSlideImageItem: props.onAddSlideImageItem,
+        onNavigationPrev:    props.onNavigationPrev,
+        onNavigationNext:    props.onNavigationNext
+      });
+    }.bind(this))
+  });
 };
 
 module.exports = PresentationList;
