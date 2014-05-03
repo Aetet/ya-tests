@@ -42,14 +42,14 @@ var testStyles = [
   path.join(path.dirname(require.resolve('mocha')), 'mocha.css')
 ];
 
-var programName = 'build';
+var programName = 'presentation';
 var componentOptions = {
   development: !isProd,
   install:     true,
   verbose:     true,
   alias:       true,
   require:     true,
-  umd:         isProd ? programName : false,
+  umd:         false,
   prefix:      '',
   browsers:    '',
   destination: dirs.build,
@@ -78,19 +78,19 @@ gulp.task('clean', function() {
 
 gulp.task('build:testlibs', ['build'], function() {
   return gulp.src(testlibs)
-  .pipe(concat('build-testlibs.js'))
+  .pipe(concat(programName + '-testlibs.js'))
   .pipe(gulp.dest(dirs.build));
 });
 
 gulp.task('build:teststyles', function() {
   return gulp.src(testStyles)
-  .pipe(concat('build-teststyles.css'))
+  .pipe(concat(programName + '-teststyles.css'))
   .pipe(gulp.dest(dirs.build));
 });
 
 gulp.task('build:tests', ['build:testlibs', 'build:teststyles'], function() {
   return gulp.src(dirs.src + '/**/*-test.js')
-  .pipe(concat('build-tests.js'))
+  .pipe(concat(programName + '-tests.js'))
   .pipe(gulp.dest(dirs.build));
 });
 
@@ -145,7 +145,7 @@ gutil.log('* gulp              (development build)');
 gutil.log('* gulp --production (production build)');
 gutil.log('* gulp clean        (rm /web/build)');
 gutil.log('* gulp test         (run karma tests and exit)');
-gutil.log('* gulp watch        (build and run tests and dev server)');
+gutil.log('* gulp watch        (build and run tests and dev server on localhost:9001)');
 gutil.log('');
 gutil.log('Current environment: ' + appConfigEnv);
 gutil.log('**********************************************');

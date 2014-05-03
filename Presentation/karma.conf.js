@@ -5,7 +5,7 @@ module.exports = function(config) {
     frameworks: ['mocha', 'sinon', 'chai', 'chai-jquery', 'chai-as-promised', 'sinon-chai'],
     files: [
       jqueryPath,
-      'web/build/build.js',
+      'web/build/presentation.js',
       'client/**/*-test.js'
     ].concat(config.files),
     reporters: [ 'progress' ],

@@ -16,13 +16,12 @@
 Запуск
 ------
 
-Открыть в браузере файл `web/index.html` 
+Открыть в браузере файл `web/index.html`
 Или запустить `./gulp watch` и открыть http://localhost:9001
 
 Тестирование
 ------------
+Запустить `./gulp watch` и открыть http://localhost:9001/tests.html
 
-Открыть в браузере файл web/tests.html
-
-Или запустить в консоли `./gulp test --nowatch`
+Или запустить в консоли `./gulp test`
 
