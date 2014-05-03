@@ -4,7 +4,7 @@
   "description": "Simple presentation app",
   "main": "index.js",
   "scripts": {
-    "postinstall": "node_modules/.bin/component install && node_modules/.bin/component build -d -o web/build"
+    "postinstall": "node_modules/.bin/component install && node_modules/.bin/gulp"
   },
   "author": "",
   "license": "ISC",
@@ -35,6 +35,7 @@
     "component-require2": "^1.0.1",
     "component-build": "^1.2.0",
     "event-stream": "^3.1.5",
-    "gulp-minify-css": "^0.3.4"
+    "gulp-minify-css": "^0.3.4",
+    "component": "^1.0.0-rc5"
   }
 }

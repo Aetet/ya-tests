@@ -64,7 +64,7 @@ gulp.task('clean', function() {
 });
 
 
-gulp.task('watch', ['build'], function () {
+gulp.task('watch', ['build', 'connect'], function () {
   gulp.watch(dirs.src + '/**/*', function () {
     gulp.run('build');
   });
