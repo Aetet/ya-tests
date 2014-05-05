@@ -8,7 +8,10 @@ module.exports = function(config) {
       'web/build/presentation.js',
       'client/**/*-test.js'
     ],
-    reporters: [ 'progress' ],
+    plugins: [
+      'karma-mocha-reporter'
+    ].concat(config.plugins),
+    reporters: [ 'mocha' ],
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: false,

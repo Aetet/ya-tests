@@ -29,7 +29,9 @@ module.exports = {
           };
 
           build.scripts(function (err, string) {
-            if (err) throw err;
+
+            if (err) {console.error(err);}
+
             stream.end(new File({
               cwd:  basePath,
               base: options.base || basePath,

@@ -8,11 +8,13 @@ var isProd,
     pushState = require('connect-pushstate/lib/pushstate').pushState,
     connect   = require('gulp-connect'),
     concat    = require('gulp-concat-util'),
-    notify    = require('gulp-notify'),
+    Notifier  = require('node-notifier'),
     component    = require('./component-gulp-adapter'),
     args         = require('yargs').argv,
     path         = require('path'),
-    es           = require("event-stream");
+    es           = require('event-stream');
+
+var notifier = new Notifier();
 
 var karma = require('gulp-karma')({
   configFile: 'karma.conf.js'
@@ -96,7 +98,13 @@ gulp.task('build:tests', ['build:testlibs', 'build:teststyles'], function() {
 
 gulp.task('karma:run', ['build'], function () {
   var run = karma.run();
-  run.fail(notify.onError('Tests failed: <%= code %>'));
+  run.fail(function (code) {
+    console.log('test');
+    notifier.notify({
+      title: ProgramName,
+      message: 'Tests failed: ' + code
+    });
+  });
   return run;
 });
 

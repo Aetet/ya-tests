@@ -18,6 +18,7 @@ isString = function (value) {
   return toString.call(value) === '[object String]';
 };
 
+
 /**
  * Создает HTMLElement на основе имени тега или прототипа
  *
@@ -77,7 +78,7 @@ Renderer = function (Prototype, options) {
   options = options || {};
 
   if (isString(Prototype)) {
-    el = document.createElement(Prototype);
+    el = Renderer.createElement(Prototype);
 
     // делегируем свойства из options в dom элемент
     // children, onClick, onChange обрабатываются иначе
@@ -122,6 +123,10 @@ Renderer = function (Prototype, options) {
   }
 
   return el;
+};
+
+Renderer.createElement = function (name) {
+  return document.createElement(name);
 };
 
 /**
