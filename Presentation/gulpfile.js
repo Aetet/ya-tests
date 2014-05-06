@@ -97,8 +97,8 @@ gulp.task('build:tests', ['build:testlibs', 'build:teststyles'], function() {
 });
 
 gulp.task('karma:run', ['build'], function () {
-  var run = karma.run();
-  run.fail(function (code) {
+  var run = karma.run;
+  run({}, function (code) {
     console.log('test');
     notifier.notify({
       title: ProgramName,
