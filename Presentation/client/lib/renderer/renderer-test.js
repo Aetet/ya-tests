@@ -1,4 +1,4 @@
-describe('renderer-test', function () {
+describe('renderer', function () {
   var TestElement,
       DOMElementStub,
       oldDOMElementStub,
